@@ -1,25 +1,33 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
          IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-         IonLabel, IonItem, IonInput, IonButton } from '@ionic/react';
+         IonLabel, IonItem, IonInput, IonButton, IonRouterLink } from '@ionic/react';
 import React, { useState } from 'react';
 import ExploreContainer from '../components/ExploreContainer';
-import { Link } from 'react-router-dom';
+import { Link, Route, Router } from 'react-router-dom';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [cPassword, setCPassword] = useState('');
 
-    function debug_login(){
-        console.log(userName, password);
+    function goBack(){
+      window.history.back();
+    }
+
+    function debug_Register(){
+        if (password != cPassword) {
+          console.log("Hesla nejsou stejná")
+        } else {
+          console.log(userName, password);
+        }
     }
 
   return (
     <IonPage>
       <IonContent>
           <IonCard>
-              image placeohlder
               <IonCardHeader>
-                  <IonCardTitle>Login</IonCardTitle>
+                  <IonCardTitle>Register</IonCardTitle>
               </IonCardHeader>
 
               <IonCardContent>
@@ -30,10 +38,14 @@ const Login: React.FC = () => {
                     type="password" 
                     placeholder="Password"
                     onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
-                  <IonButton onClick={debug_login}>Login</IonButton>
+                  <IonInput 
+                    type="password" 
+                    placeholder="Confirm password"
+                    onIonChange={(e: any) => setCPassword(e.target.value)}></IonInput>
+                  <IonButton onClick={debug_Register}>Create new account</IonButton>
                   <IonItem lines="none">
                       <p>
-                      Don't have account? <Link to="/register">Register</Link>
+                      Already have an account? <IonRouterLink onClick={goBack}>Login</IonRouterLink>
                       </p>
                   </IonItem>
               </IonCardContent>
@@ -43,4 +55,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;
