@@ -2,7 +2,6 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
          IonCard, IonCardContent, IonCardHeader, IonCardTitle,
          IonLabel, IonItem, IonInput, IonButton, IonRouterLink } from '@ionic/react';
 import React, { useState } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
 import { Link, Route, Router } from 'react-router-dom';
 
 const Register: React.FC = () => {
