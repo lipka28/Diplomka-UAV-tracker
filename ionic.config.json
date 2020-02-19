@@ -1,0 +1,7 @@
+{
+  "name": "UAV-keep-track",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
