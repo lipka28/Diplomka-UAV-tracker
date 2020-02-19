@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "UAV-keep-track",
+  "appId": "cz.utb.UAVtrack",
+  "appName": "UAV keep track",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
