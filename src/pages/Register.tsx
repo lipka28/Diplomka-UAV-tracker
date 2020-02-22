@@ -1,38 +1,57 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
          IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-         IonLabel, IonItem, IonInput, IonButton, IonRouterLink, } from '@ionic/react';
+         IonLabel, IonItem, IonInput, IonButton, IonRouterLink,
+         IonLoading } from '@ionic/react';
 import React, { useState } from 'react';
 import firebase from '../components/Firebase';
 import { Link, Route, Router } from 'react-router-dom';
 import { register } from '../serviceWorker';
 import { attachProps } from '@ionic/react/dist/types/components/utils';
+import { presentToast } from '../components/Toast'
 
 const Register: React.FC = () => {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cPassword, setCPassword] = useState('');
+    
+    const [bussy, setBussy] = useState<boolean>(false);
 
     function goBack(){
       window.history.back();
     }
 
     async function register() {
-      try {
-        await firebase.register(userName, userEmail, password);
-      } catch (error) {
-        alert(error.message);
+      setBussy(true)
+      if (cPassword !== password){
+        presentToast("Passwords do not match")
       }
+
+      if (userName.trim() === '' 
+          || password.trim() === ''
+          || userEmail.trim() === ''){
+            
+        presentToast("All fields are required")
+
+      } else {
+        try {
+          await firebase.register(userName, userEmail, password);
+          presentToast("Account created succesfully");
+        } catch (error) {
+          presentToast(error.message, 4000);
+        }
+      }
+      setBussy(false)
     }
 
   return (
     <IonPage>
       <IonContent>
           <IonCard>
-              <IonCardHeader>
+              <IonCardHeader class="ion-text-center">
                   <IonCardTitle>Register</IonCardTitle>
               </IonCardHeader>
-
+              <IonLoading message="Creating new user.." duration={0} isOpen={bussy}/>
               <IonCardContent>
                   <IonInput 
                     placeholder="User name" 
@@ -52,7 +71,7 @@ const Register: React.FC = () => {
                     placeholder="Confirm password"
                     onIonChange={(e: any) => setCPassword(e.target.value)}>
                     </IonInput>
-                  <IonButton onClick={register}>Create new account</IonButton>
+                  <IonButton expand="block" onClick={register}>Create new account</IonButton>
                   <IonItem lines="none">
                       <p>
                       Already have an account? <IonRouterLink onClick={goBack}>Login</IonRouterLink>

@@ -23,6 +23,22 @@ class Firebase {
         this.db = app.firestore();
     }
 
+    getCurrentUser(){
+        return new Promise((resolve, reject) => {
+
+            const unsubscribe = this.auth.onAuthStateChanged(function(user) {
+                if(user){
+                    resolve(user)
+                } else {
+                    resolve(null)
+                }
+                unsubscribe()
+            })
+
+        })
+        
+    }
+
     async login(email:string, password:string) {
         return await this.auth.signInWithEmailAndPassword(email, password);
     }
