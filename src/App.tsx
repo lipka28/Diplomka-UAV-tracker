@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonSpinner, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonContent, IonTabs } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSpinner, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonContent, IonTabs, IonFab, IonFabButton, IonImg, IonFabList,  } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { newspaper, airplane } from 'ionicons/icons'
+import { newspaper, airplane, add, personCircleOutline, exitOutline, settingsOutline, logoTumblr } from 'ionicons/icons'
 import firebase from './components/Firebase'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -29,31 +29,51 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const RoutingSystem: React.FC = () => {
-  return(
 
+  async function logout(){
+    await firebase.logout();
+    window.location.reload();
+  }
+
+  return(
     <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route path="/login" component={Login} exact={true} />
-            <Route path="/register" component={Register} exact={true} />
-            <Route path="/pilotTab" component={PilotTab} exact={true} />
-            <Route path="/uavTab" component={UavsTab} exact={true} />
-            <Route exact path="/" render={() => <Redirect to="/pilotTab" />} />
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="test1" href="/pilotTab">
-              <IonIcon icon={newspaper} />
-              <IonLabel>Diarry</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="test2" href="/uavTab">
-              <IonIcon icon={airplane} />
-              <IonLabel>UAV's</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
+      <IonContent>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route path="/login" component={Login} exact={true} />
+              <Route path="/register" component={Register} exact={true} />
+              <Route path="/pilotTab" component={PilotTab} exact={true} />
+              <Route path="/uavTab" component={UavsTab} exact={true} />
+              <Route exact path="/" render={() => <Redirect to="/pilotTab" />} />
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="test1" href="/pilotTab">
+                <IonIcon icon={newspaper} />
+                <IonLabel>Diarry</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="test2" href="/uavTab">
+                <IonIcon icon={airplane} />
+                <IonLabel>UAV's</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+        <IonFab horizontal="end" vertical="top" slot="fixed">
+            <IonFabButton>
+              <IonIcon style={{"font-size": 500+"%"}} icon={personCircleOutline}></IonIcon>
+            </IonFabButton>
+            <IonFabList>
+              <IonFabButton color="light">
+                <IonIcon icon={settingsOutline}/>
+              </IonFabButton>
+              <IonFabButton onClick={logout} color="danger">
+                <IonIcon icon={exitOutline}/>
+              </IonFabButton>
+            </IonFabList>
+          </IonFab>
+    </IonContent>
+  </IonApp>
   )
 }
 

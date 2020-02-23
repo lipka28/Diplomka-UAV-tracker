@@ -6,13 +6,13 @@ const PilotTab: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle class="ion-text-center">Pilot's diarry</IonTitle>
+          <IonTitle class="ion-text-center">Pilot's Diarry</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Pilot's diarry?</IonTitle>
+            <IonTitle size="large">Pilot's Diarry</IonTitle>
           </IonToolbar>
         </IonHeader>
       </IonContent>
