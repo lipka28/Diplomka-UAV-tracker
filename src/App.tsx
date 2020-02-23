@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonSpinner } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSpinner, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonContent, IonTabs } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { newspaper, airplane } from 'ionicons/icons'
 import firebase from './components/Firebase'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import PilotTab from './pages/PilotTab'
+import UavsTab from './pages/UavsTab'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,18 +27,33 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Dashboard from './pages/Dashboard';
 
 const RoutingSystem: React.FC = () => {
   return(
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/login" component={Login} exact={true} />
-        <Route path="/register" component={Register} exact={true} />
-        <Route path="/dashboard" component={Dashboard} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
+
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/login" component={Login} exact={true} />
+            <Route path="/register" component={Register} exact={true} />
+            <Route path="/pilotTab" component={PilotTab} exact={true} />
+            <Route path="/uavTab" component={UavsTab} exact={true} />
+            <Route exact path="/" render={() => <Redirect to="/pilotTab" />} />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="test1" href="/pilotTab">
+              <IonIcon icon={newspaper} />
+              <IonLabel>Diarry</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="test2" href="/uavTab">
+              <IonIcon icon={airplane} />
+              <IonLabel>UAV's</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
   )
 }
 
@@ -45,7 +63,7 @@ const App: React.FC = () => {
   useEffect(() => {
     firebase.getCurrentUser().then(user => {
       if(user){
-        window.history.replaceState({}, '', '/dashboard');
+        window.history.replaceState({}, '', '/pilotTab');
       } else {
         window.history.replaceState({}, '', '/login');
       }
