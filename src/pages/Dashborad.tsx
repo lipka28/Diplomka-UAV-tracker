@@ -6,12 +6,19 @@ import { Redirect, Route } from 'react-router-dom';
 import firebase from '../components/Firebase';
 import PilotTab from './PilotTab';
 import UavsTab from './UavsTab';
+import UserSettings from './UserSettings';
 
 const Dashboard: React.FC = () => {
 
   async function logout(){
       await firebase.logout();
       window.location.reload();
+  }
+
+  function toSettings()
+  {
+    window.history.replaceState({}, '', '/userSettings');
+    window.location.reload();
   }
 
   return (
@@ -38,10 +45,10 @@ const Dashboard: React.FC = () => {
         </IonReactRouter>
         <IonFab horizontal="end" vertical="top" slot="fixed">
             <IonFabButton>
-              <IonIcon style={{"font-size": 500+"%"}} icon={personCircleOutline}></IonIcon>
+              <IonIcon style={{"fontSize": 500+"%"}} icon={personCircleOutline}></IonIcon>
             </IonFabButton>
             <IonFabList>
-              <IonFabButton color="light">
+              <IonFabButton onClick={toSettings} color="light">
                 <IonIcon icon={settingsOutline}/>
               </IonFabButton>
               <IonFabButton onClick={logout} color="danger">

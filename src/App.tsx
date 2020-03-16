@@ -26,6 +26,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import UserSettings from './pages/UserSettings';
 
 const RoutingSystem: React.FC = () => {
 
@@ -36,6 +37,7 @@ const RoutingSystem: React.FC = () => {
             <IonRouterOutlet>
               <Route path="/login" component={Login} exact={true} />
               <Route path="/register" component={Register} exact={true} />
+              <Route path="/userSettings" component={UserSettings} exact={true} />
               <Route path="/dashboard" component={Dashboard} exact={true} />
               <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             </IonRouterOutlet>
@@ -51,7 +53,7 @@ const App: React.FC = () => {
   useEffect(() => {
     firebase.getCurrentUser().then(user => {
       if(user){
-        window.history.replaceState({}, '', '/dashboard');
+        //window.history.replaceState({}, '', '/dashboard');
       } else {
         window.history.replaceState({}, '', '/login');
       }
@@ -62,7 +64,7 @@ const App: React.FC = () => {
 
   return(
     <IonApp>
-      {bussy ? <IonSpinner /> : <RoutingSystem />}
+      {bussy ? <IonContent><IonSpinner slot="center" /></IonContent> : <RoutingSystem />}
     </IonApp>
   )
   
