@@ -1,6 +1,7 @@
 import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
+import IUser from '../Interfaces/IUser'
 
 const config = {
     apiKey: "AIzaSyDM4PKLJY3Ag09PcgTilm4fSFSsqz54zGY",
@@ -24,7 +25,7 @@ class Firebase {
     }
 
     getCurrentUser(){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve:any, reject:any) => {
 
             const unsubscribe = this.auth.onAuthStateChanged(function(user) {
                 if(user){
@@ -52,6 +53,15 @@ class Firebase {
         return this.auth.currentUser?.updateProfile({
             displayName: name
         });
+    }
+
+    async getCurrentUserInfo(){
+        let user:IUser = {
+            name : this.auth.currentUser?.displayName!,
+            email : this.auth.currentUser?.email!
+        }
+
+        return user;
     }
 }
 
