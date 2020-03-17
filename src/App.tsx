@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonSpinner, IonContent  } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonContent  } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { newspaper, airplane, add, personCircleOutline, exitOutline, settingsOutline, logoTumblr } from 'ionicons/icons'
 import firebase from './components/Firebase'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -55,7 +54,7 @@ const App: React.FC = () => {
   useEffect(() => {
     firebase.getCurrentUser().then(user => {
       if(user){
-        if(window.location.pathname == "/pilotTab" || window.location.pathname == "/uavTab"){
+        if(window.location.pathname === "/pilotTab" || window.location.pathname === "/uavTab"){
           window.history.replaceState({}, '', '/dashboard');
         }
       } else {

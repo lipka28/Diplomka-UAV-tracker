@@ -1,8 +1,7 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
-         IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-         IonLabel, IonItem, IonInput, IonButton, IonLoading } from '@ionic/react';
+import { IonContent, IonPage, IonCard, IonCardContent, IonCardHeader, IonCardTitle,
+         IonItem, IonInput, IonButton, IonLoading } from '@ionic/react';
 import React, { useState } from 'react';
-import { Link, Router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import firebase from '../components/Firebase';
 import { presentToast } from '../components/Toast'
 
@@ -14,7 +13,7 @@ const Login: React.FC = () => {
     async function login(){
       setBussy(true)
       try{
-        const login = await firebase.login(userEmail, password);
+        await firebase.login(userEmail, password);
         window.history.replaceState({}, '', '/');
         window.location.reload();
       } catch(error) {

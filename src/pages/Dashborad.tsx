@@ -1,12 +1,11 @@
 import React from 'react';
-import { IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonContent, IonTabs, IonFab, IonFabButton, IonImg, IonFabList,  } from '@ionic/react';
-import { newspaper, airplane, add, personCircleOutline, exitOutline, settingsOutline, logoTumblr } from 'ionicons/icons'
+import { IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonContent, IonTabs, IonFab, IonFabButton, IonFabList } from '@ionic/react';
+import { newspaper, airplane, personCircleOutline, exitOutline, settingsOutline} from 'ionicons/icons'
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import firebase from '../components/Firebase';
 import PilotTab from './PilotTab';
 import UavsTab from './UavsTab';
-import UserSettings from './UserSettings';
 
 const Dashboard: React.FC = () => {
 

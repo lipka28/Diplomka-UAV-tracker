@@ -1,16 +1,13 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
-         IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-         IonLabel, IonItem, IonInput, IonButton, IonRouterLink,
-         IonLoading } from '@ionic/react';
+import { IonContent, IonPage, IonCard, IonCardContent, 
+         IonCardHeader, IonCardTitle, IonItem, IonInput,
+         IonButton, IonRouterLink, IonLoading } from '@ionic/react';
 import React, { useState } from 'react';
 import firebase from '../components/Firebase';
-import { Link, Route, Router } from 'react-router-dom';
-import { register } from '../serviceWorker';
-import { attachProps } from '@ionic/react/dist/types/components/utils';
 import { presentToast } from '../components/Toast'
 
 const Register: React.FC = () => {
     const [userName, setUserName] = useState('');
+    const [userSurname, setUserSurname] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cPassword, setCPassword] = useState('');
@@ -35,7 +32,8 @@ const Register: React.FC = () => {
 
       } else {
         try {
-          await firebase.register(userName, userEmail, password);
+          var realName = userName + " " + userSurname;
+          await firebase.register(realName, userEmail, password);
           presentToast("Account created succesfully");
         } catch (error) {
           presentToast(error.message, 4000);
@@ -54,8 +52,12 @@ const Register: React.FC = () => {
               <IonLoading message="Creating new user.." duration={0} isOpen={bussy}/>
               <IonCardContent>
                   <IonInput 
-                    placeholder="User name" 
+                    placeholder="Name" 
                     onIonChange={(e: any) => setUserName(e.target.value)}>
+                    </IonInput>
+                  <IonInput 
+                    placeholder="Surname" 
+                    onIonChange={(e: any) => setUserSurname(e.target.value)}>
                     </IonInput>
                   <IonInput 
                     placeholder="Email" 
