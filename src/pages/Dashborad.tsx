@@ -41,7 +41,7 @@ const Dashboard: React.FC = () => {
             </IonTabBar>
           </IonTabs>
         </IonReactRouter>
-        <IonFab horizontal="start" vertical="top" slot="fixed">
+        <IonFab horizontal="end" vertical="top" slot="fixed">
             <IonFabButton>
               <IonIcon style={{"fontSize": 500+"%"}} icon={personCircleOutline}></IonIcon>
             </IonFabButton>
