@@ -30,6 +30,7 @@ const Dashboard: React.FC = () => {
               <Route path="/pilotTab" component={PilotTab} exact={true} />
               <Route path="/uavTab" component={UavsTab} exact={true} />
               <Route exact path="/dashboard" render={() => <Redirect to="/pilotTab"/>} />
+              
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="test1" href="/pilotTab">
@@ -43,7 +44,7 @@ const Dashboard: React.FC = () => {
             </IonTabBar>
           </IonTabs>
         </IonReactRouter>
-        <IonFab horizontal="end" vertical="top" slot="fixed">
+        <IonFab horizontal="start" vertical="top" slot="fixed">
             <IonFabButton>
               <IonIcon style={{"fontSize": 500+"%"}} icon={personCircleOutline}></IonIcon>
             </IonFabButton>

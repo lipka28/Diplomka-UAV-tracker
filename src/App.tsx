@@ -7,6 +7,7 @@ import firebase from './components/Firebase'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashborad'
+import CustomLoading from './pages/Loading'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -39,6 +40,7 @@ const RoutingSystem: React.FC = () => {
               <Route path="/register" component={Register} exact={true} />
               <Route path="/userSettings" component={UserSettings} exact={true} />
               <Route path="/dashboard" component={Dashboard} exact={true} />
+              <Route path="/Loading" component={CustomLoading} exact={true} />
               <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             </IonRouterOutlet>
         </IonReactRouter>
@@ -53,7 +55,9 @@ const App: React.FC = () => {
   useEffect(() => {
     firebase.getCurrentUser().then(user => {
       if(user){
-        //window.history.replaceState({}, '', '/dashboard');
+        if(window.location.pathname == "/pilotTab" || window.location.pathname == "/uavTab"){
+          window.history.replaceState({}, '', '/dashboard');
+        }
       } else {
         window.history.replaceState({}, '', '/login');
       }
@@ -64,7 +68,7 @@ const App: React.FC = () => {
 
   return(
     <IonApp>
-      {bussy ? <IonContent><IonSpinner slot="center" /></IonContent> : <RoutingSystem />}
+      {bussy ? <CustomLoading /> : <RoutingSystem />}
     </IonApp>
   )
   
