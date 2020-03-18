@@ -63,6 +63,10 @@ class Firebase {
 
         return user;
     }
+
+    async deleteUser(){
+        return await this.auth.currentUser?.delete();
+    }
 }
 
 export default new Firebase()
