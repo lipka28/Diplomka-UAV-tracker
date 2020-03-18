@@ -7,11 +7,13 @@ import { presentToast } from '../components/Toast'
 
 const UserSettings: React.FC = () => {
   const [fullName, setFullname] = useState('Placeholder Name');
+  const [oldName, setOldName] = useState('Placeholder Name');
   const [email, setEmail] = useState('Placeholder@email.mail');
   const [showPopover, setShowPopover] = useState(false);
   const [password, setPassword] = useState('');
   const [bussy, setBussy] = useState(false);
   const [message, setMessage] = useState('');
+  const [firstRun, setFirstRun] = useState(true);
 
   async function deleteUser(){
     setMessage('Deleting user...');
@@ -28,9 +30,25 @@ const UserSettings: React.FC = () => {
     setBussy(false);
   }
 
+  async function saveChanges(){
+    setMessage("Saving changes...");
+    setBussy(true);
+    if(fullName !== oldName){
+      Firebase.changeUserName(fullName).then(() => {
+        window.location.href = "/Dashboard";
+      })
+    } else {
+      window.location.href = "/Dashboard";
+    }
+  }
+
   Firebase.getCurrentUserInfo().then(user => {
-    setFullname(user.name);
-    setEmail(user.email);
+    if(firstRun) {
+      setFullname(user.name);
+      setOldName(user.name);
+      setEmail(user.email);
+      setFirstRun(false);
+    }
   })  
 
   return (
@@ -99,7 +117,7 @@ const UserSettings: React.FC = () => {
           </IonItem>
         </IonList>
         <IonFab horizontal="end" vertical="bottom" slot="fixed">
-          <IonButton color="primary">Save changes</IonButton>
+          <IonButton color="primary" onClick={saveChanges}>Save changes</IonButton>
           </IonFab>
         <IonFab horizontal="start" vertical="bottom" slot="fixed">
           <IonButton color="danger" onClick={() => setShowPopover(true)}>Delete Account</IonButton>

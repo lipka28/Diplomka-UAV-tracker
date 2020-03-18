@@ -55,6 +55,12 @@ class Firebase {
         });
     }
 
+    async changeUserName (name:string){
+        return await this.auth.currentUser?.updateProfile({
+            displayName: name
+        });
+    }
+
     async getCurrentUserInfo(){
         let user:IUser = {
             name : this.auth.currentUser?.displayName!,
