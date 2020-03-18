@@ -1,38 +1,31 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList,
-         IonLabel, IonInput, IonItem, IonButton, IonFab, IonButtons, IonBackButton } from '@ionic/react';
+         IonLabel, IonInput, IonItem, IonButton, IonFab, IonButtons, 
+         IonBackButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading } from '@ionic/react';
 import Firebase from '../components/Firebase';
-import { presentAlert } from '../components/Alert'
+import { presentToast } from '../components/Toast'
 
 const UserSettings: React.FC = () => {
   const [fullName, setFullname] = useState('Placeholder Name');
   const [email, setEmail] = useState('Placeholder@email.mail');
+  const [showPopover, setShowPopover] = useState(false);
+  const [password, setPassword] = useState('');
+  const [bussy, setBussy] = useState(false);
+  const [message, setMessage] = useState('');
 
-  async function deleteUserPrompt(){
-    const buttons = [
-      {
-        text: 'No',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-          console.log('Confirm Cancel');
-        }
-      }, {
-        text: 'Yes',
-        cssClass: 'danger',
-        handler: () => {
-          console.log('Confirm Okay');
-          Firebase.deleteUser().then(() => {
-            Firebase.logout().then(() => {
-              window.location.reload();
-            });
-          });
-          }
-        }
-      ];
-    presentAlert("Are you sure?", 
-    "This action will completly <strong>delete</strong> your account. Are you sure you want to continue?", 
-    buttons);
+  async function deleteUser(){
+    setMessage('Deleting user...');
+    setBussy(true);
+    await Firebase.reAuthUser(email, password).then(() => {
+      Firebase.deleteUser().then(() => {
+        window.location.reload();
+      }).catch((reason) => {
+        presentToast(reason);
+      })
+    }).catch((reason) => {
+      presentToast(reason);
+    });
+    setBussy(false);
   }
 
   Firebase.getCurrentUserInfo().then(user => {
@@ -40,10 +33,34 @@ const UserSettings: React.FC = () => {
     setEmail(user.email);
   })  
 
-  //console.log(us);
-
   return (
     <IonPage>
+      <IonPopover
+        isOpen={showPopover}
+        onDidDismiss={e => setShowPopover(false)}>
+        <IonGrid>
+          <IonRow>
+            <IonCol class="ion-text-center">
+               To delete your account 
+               you must confirm your
+               action by providing your 
+               <strong>Password</strong>.
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="password"
+                placeholder="Password"
+                onIonChange={(e: any) => setPassword(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol class="ion-text-right"><IonButton color="danger" onClick={deleteUser}>Delete</IonButton></IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonPopover>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -53,6 +70,7 @@ const UserSettings: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonLoading message={message} duration={0} isOpen={bussy}/>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">User settings</IonTitle>
@@ -64,27 +82,28 @@ const UserSettings: React.FC = () => {
             <IonInput 
             value={fullName}
             placeholder="Full name"
-            onIonChange={(e: any) => setFullname(e.target.value)}
-            ></IonInput>
+            onIonChange={(e: any) => setFullname(e.target.value)}/>
           </IonItem>
           <IonItem>
             <IonLabel>Email:</IonLabel>
             <IonInput 
+            disabled={true}
             value={email}
             placeholder="Email"
-            onIonChange={(e: any) => setEmail(e.target.value)}></IonInput>
+            onIonChange={(e: any) => setEmail(e.target.value)}/>
+            <IonButton slot="end" color="light">Change Email</IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>Password:</IonLabel>
-            <IonInput disabled={true} value="***********" ></IonInput>
-            <IonButton slot="end" color="light">Change password</IonButton>
+            <IonInput disabled={true} value="***********" />
+            <IonButton slot="end" color="light">Change Password</IonButton>
           </IonItem>
         </IonList>
         <IonFab horizontal="end" vertical="bottom" slot="fixed">
           <IonButton color="primary">Save changes</IonButton>
           </IonFab>
         <IonFab horizontal="start" vertical="bottom" slot="fixed">
-          <IonButton color="danger" onClick={deleteUserPrompt}>Delete Account</IonButton>
+          <IonButton color="danger" onClick={() => setShowPopover(true)}>Delete Account</IonButton>
           </IonFab>
       </IonContent>
     </IonPage>

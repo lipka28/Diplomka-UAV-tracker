@@ -64,6 +64,14 @@ class Firebase {
         return user;
     }
 
+    async reAuthUser(email:string, password:string){
+        var credentials = app.auth.EmailAuthProvider.credential(
+            email,
+            password
+        );
+        return await this.auth.currentUser?.reauthenticateWithCredential(credentials)
+    }
+
     async deleteUser(){
         return await this.auth.currentUser?.delete();
     }
