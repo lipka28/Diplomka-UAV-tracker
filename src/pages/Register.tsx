@@ -33,8 +33,11 @@ const Register: React.FC = () => {
       } else {
         try {
           var realName = userName + " " + userSurname;
-          await firebase.register(realName, userEmail, password);
-          presentToast("Account created succesfully");
+          await firebase.register(realName, userEmail, password).then(() => {
+            firebase.login(userEmail, password).then(() => {
+              window.location.reload();
+            })
+          });
         } catch (error) {
           presentToast(error.message, 4000);
         }

@@ -43,8 +43,7 @@ const UserSettings: React.FC = () => {
             <IonCol class="ion-text-center">
                To delete your account 
                you must confirm your
-               action by providing your 
-               <strong>Password</strong>.
+               action by providing your <strong>Password</strong>.
             </IonCol>
           </IonRow>
           <IonRow>

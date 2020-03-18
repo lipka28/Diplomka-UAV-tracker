@@ -54,7 +54,10 @@ const App: React.FC = () => {
   useEffect(() => {
     firebase.getCurrentUser().then(user => {
       if(user){
-        if(window.location.pathname === "/pilotTab" || window.location.pathname === "/uavTab"){
+        if(window.location.pathname === "/pilotTab" ||
+           window.location.pathname === "/uavTab" ||
+           window.location.pathname === "/login" ||
+           window.location.pathname === "/register"){
           window.history.replaceState({}, '', '/dashboard');
         }
       } else {
