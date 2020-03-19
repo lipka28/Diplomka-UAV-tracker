@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, 
          IonToolbar, IonFabButton, IonFab, IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons'
+import UavAddDialog from '../components/AddUAVWindow'
 
 const UavsTab: React.FC = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+
   return (
     <IonPage>
+      <UavAddDialog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} />
       <IonHeader>
         <IonToolbar>
           <IonTitle class="ion-text-center">UAVs</IonTitle>
@@ -18,7 +22,7 @@ const UavsTab: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
-            <IonFabButton color="primary">
+            <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>
               <IonIcon icon={addOutline}></IonIcon>
             </IonFabButton>
         </IonFab>
