@@ -9,7 +9,10 @@ const UserSettings: React.FC = () => {
   const [fullName, setFullname] = useState('Placeholder Name');
   const [oldName, setOldName] = useState('Placeholder Name');
   const [email, setEmail] = useState('Placeholder@email.mail');
+  const [oldEmail, setOldEmail] = useState('Placeholder@email.mail');
   const [showPopover, setShowPopover] = useState(false);
+  const [showEmailPopover, setShowEmailPopover] = useState(false);
+  const [showPassPopover, setShowPassPopover] = useState(false);
   const [password, setPassword] = useState('');
   const [bussy, setBussy] = useState(false);
   const [message, setMessage] = useState('');
@@ -18,9 +21,25 @@ const UserSettings: React.FC = () => {
   async function deleteUser(){
     setMessage('Deleting user...');
     setBussy(true);
-    await Firebase.reAuthUser(email, password).then(() => {
+    await Firebase.reAuthUser(oldEmail, password).then(() => {
       Firebase.deleteUser().then(() => {
         window.location.reload();
+      }).catch((reason) => {
+        presentToast(reason);
+      })
+    }).catch((reason) => {
+      presentToast(reason);
+    });
+    setBussy(false);
+  }
+
+  async function changeEmail(){
+    setMessage('Changing email...');
+    setBussy(true);
+    await Firebase.reAuthUser(oldEmail, password).then(() => {
+      Firebase.changeLoginEmail(email).then(() => {
+        setOldEmail(email);
+        setShowEmailPopover(false);
       }).catch((reason) => {
         presentToast(reason);
       })
@@ -47,6 +66,7 @@ const UserSettings: React.FC = () => {
       setFullname(user.name);
       setOldName(user.name);
       setEmail(user.email);
+      setOldEmail(user.email);
       setFirstRun(false);
     }
   })  
@@ -78,6 +98,38 @@ const UserSettings: React.FC = () => {
           </IonRow>
         </IonGrid>
       </IonPopover>
+      <IonPopover
+        isOpen={showEmailPopover}
+        onDidDismiss={e => setShowEmailPopover(false)}>
+        <IonGrid>
+          <IonRow>
+            <IonCol class="ion-text-center">
+               <h2>Change login email</h2>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="email"
+                value={email}
+                placeholder="Email"
+                onIonChange={(e: any) => setEmail(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="password"
+                placeholder="Password"
+                onIonChange={(e: any) => setPassword(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol><IonButton color="light" onClick={() => setShowEmailPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol class="ion-text-right"><IonButton color="primary" onClick={changeEmail}>Save</IonButton></IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonPopover>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -103,12 +155,8 @@ const UserSettings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Email:</IonLabel>
-            <IonInput 
-            disabled={true}
-            value={email}
-            placeholder="Email"
-            onIonChange={(e: any) => setEmail(e.target.value)}/>
-            <IonButton slot="end" color="light">Change Email</IonButton>
+            <IonInput disabled={true} value={oldEmail}/>
+            <IonButton slot="end" color="light" onClick={() => setShowEmailPopover(true)}>Change Email</IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>Password:</IonLabel>

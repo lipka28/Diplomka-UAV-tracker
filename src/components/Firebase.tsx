@@ -81,6 +81,10 @@ class Firebase {
     async deleteUser(){
         return await this.auth.currentUser?.delete();
     }
+
+    async changeLoginEmail(email:string){
+        return await this.auth.currentUser?.updateEmail(email);
+    }
 }
 
 export default new Firebase()
