@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList,
-         IonLabel, IonInput, IonItem, IonButton, IonFab, IonButtons, 
-         IonBackButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading } from '@ionic/react';
+import { IonInput, IonButton, IonPopover, IonGrid, IonRow, IonCol } from '@ionic/react';
 import '../theme/cust.css';
 import Firebase from '../components/Firebase';
-import { presentToast } from '../components/Toast'
 
 const UavAddDialog = (props:any) => {
 
@@ -16,13 +13,33 @@ const UavAddDialog = (props:any) => {
             <IonGrid>
               <IonRow>
                 <IonCol class="ion-text-center">
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
-                   Testklydjklydjdskjfsdfsdfsdjfisijhsdfhdlijsdflsdfl
+                   <h2>Add UAV</h2>
                 </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                   <IonInput 
+                   type="text" 
+                   placeholder="Display name"/>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                   <IonInput 
+                   type="text" 
+                   placeholder="Registered operator name"/>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                   <IonInput 
+                   type="text" 
+                   placeholder="Registration Code (OK-XXXXXX)"/>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancle</IonButton></IonCol>
+                <IonCol class="ion-text-right"><IonButton color="primary">Add</IonButton></IonCol>
               </IonRow>
             </IonGrid>
         </IonPopover>

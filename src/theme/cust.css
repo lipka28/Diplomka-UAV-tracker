@@ -9,4 +9,5 @@
 .WideDialog .popover-content {
     left: 10%;
     width: 90%;
+    max-height: 80%;
 }
