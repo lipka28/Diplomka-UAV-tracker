@@ -1,5 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, 
+         IonToolbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
+import { addOutline } from 'ionicons/icons';
 
 const PilotTab: React.FC = () => {
   return (
@@ -15,6 +17,11 @@ const PilotTab: React.FC = () => {
             <IonTitle size="large">Pilot's Diarry</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <IonFab horizontal="center" vertical="bottom" slot="fixed">
+            <IonFabButton color="primary">
+              <IonIcon icon={addOutline}></IonIcon>
+            </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );
