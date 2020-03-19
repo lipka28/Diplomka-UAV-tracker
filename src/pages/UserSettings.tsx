@@ -14,6 +14,8 @@ const UserSettings: React.FC = () => {
   const [showEmailPopover, setShowEmailPopover] = useState(false);
   const [showPassPopover, setShowPassPopover] = useState(false);
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordConf, setNewPasswordConf] = useState('');
   const [bussy, setBussy] = useState(false);
   const [message, setMessage] = useState('');
   const [firstRun, setFirstRun] = useState(true);
@@ -46,6 +48,27 @@ const UserSettings: React.FC = () => {
     }).catch((reason) => {
       presentToast(reason);
     });
+    setBussy(false);
+  }
+
+  async function changePassword(){
+    setMessage('Changing password...');
+    setBussy(true);
+    if(newPassword !== newPasswordConf){
+      presentToast("Passwords do not match!")
+    } else if (newPassword === password) {
+      presentToast("New password is same as the old one.")
+    } else {
+      await Firebase.reAuthUser(oldEmail, password).then(() => {
+        Firebase.changePassword(newPassword).then(() => {
+          setShowPassPopover(false);
+        }).catch((reason) => {
+          presentToast(reason);
+        })
+      }).catch((reason) => {
+        presentToast(reason);
+      });
+    }
     setBussy(false);
   }
 
@@ -130,6 +153,45 @@ const UserSettings: React.FC = () => {
           </IonRow>
         </IonGrid>
       </IonPopover>
+      <IonPopover
+        isOpen={showPassPopover}
+        onDidDismiss={e => setShowPassPopover(false)}>
+        <IonGrid>
+          <IonRow>
+            <IonCol class="ion-text-center">
+               <h2>Change Password</h2>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="password"
+                placeholder="Old Password"
+                onIonChange={(e: any) => setPassword(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="password"
+                placeholder="New Password"
+                onIonChange={(e: any) => setNewPassword(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonInput 
+                type="password"
+                placeholder="Repeat New Password"
+                onIonChange={(e: any) => setNewPasswordConf(e.target.value)}/>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol><IonButton color="light" onClick={() => setShowPassPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol class="ion-text-right"><IonButton color="primary" onClick={changePassword}>Save</IonButton></IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonPopover>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -161,7 +223,7 @@ const UserSettings: React.FC = () => {
           <IonItem>
             <IonLabel>Password:</IonLabel>
             <IonInput disabled={true} value="***********" />
-            <IonButton slot="end" color="light">Change Password</IonButton>
+            <IonButton slot="end" color="light" onClick={() => setShowPassPopover(true)}>Change Password</IonButton>
           </IonItem>
         </IonList>
         <IonFab horizontal="end" vertical="bottom" slot="fixed">

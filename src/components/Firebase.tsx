@@ -85,6 +85,10 @@ class Firebase {
     async changeLoginEmail(email:string){
         return await this.auth.currentUser?.updateEmail(email);
     }
+
+    async changePassword(pass:string){
+        return await this.auth.currentUser?.updatePassword(pass);
+    }
 }
 
 export default new Firebase()
