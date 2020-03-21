@@ -71,7 +71,7 @@ class Firebase {
         }, {merge: true});
     }
 
-    async getCurrentUserInfo(){
+    getCurrentUserInfo(){
         let user:IUser = {
             name : this.auth.currentUser?.displayName!,
             email : this.auth.currentUser?.email!
@@ -102,6 +102,17 @@ class Firebase {
 
     //------------------------FiresStore Stuff---------------------------//
 
+    async addUAV(name:string, operatorName:string, uavCode:string){
+        return await this.db.collection("uavs").add({
+            owner_id: this.auth.currentUser?.uid,
+            icon_url: "null",
+            name: name,
+            owner_name: this.auth.currentUser?.displayName,
+            operator_name: operatorName,
+            uav_code: uavCode,
+            shared_with: [this.auth.currentUser?.uid]
+        });
+    }
 }
 
 export default new Firebase()
