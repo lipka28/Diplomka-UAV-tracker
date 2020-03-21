@@ -76,7 +76,7 @@ const UserSettings: React.FC = () => {
     setMessage("Saving changes...");
     setBussy(true);
     if(fullName !== oldName){
-      Firebase.changeUserName(fullName).then(() => {
+      await Firebase.changeUserName(fullName).then(() => {
         window.location.href = "/Dashboard";
       })
     } else {

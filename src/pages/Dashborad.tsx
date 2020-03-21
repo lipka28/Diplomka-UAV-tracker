@@ -32,7 +32,7 @@ const Dashboard: React.FC = () => {
             <IonTabBar slot="bottom">
               <IonTabButton tab="test1" href="/pilotTab">
                 <IonIcon icon={newspaper} />
-                <IonLabel>Diarry</IonLabel>
+                <IonLabel>Logs</IonLabel>
               </IonTabButton>
               <IonTabButton tab="test2" href="/uavTab">
                 <IonIcon icon={airplane} />
