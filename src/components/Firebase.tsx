@@ -24,6 +24,7 @@ class Firebase {
         this.db = app.firestore();
     }
 
+    //-------------------------------------------Firebase stuff-------------------------//
     getCurrentUser(){
         return new Promise((resolve:any, reject:any) => {
 
@@ -49,16 +50,25 @@ class Firebase {
     }
 
     async register (name:string, email:string, password:string){
-        await this.auth.createUserWithEmailAndPassword(email, password);
-        return this.auth.currentUser?.updateProfile({
+        await this.auth.createUserWithEmailAndPassword(email, password)
+        await this.auth.currentUser?.updateProfile({
             displayName: name
+        });
+        return await this.db.collection("users").doc(this.auth.currentUser?.uid).set({
+            full_name: name,
+            icon_url: "null",
+            accessible_UAVs: []
+
         });
     }
 
     async changeUserName (name:string){
-        return await this.auth.currentUser?.updateProfile({
+        await this.auth.currentUser?.updateProfile({
             displayName: name
         });
+        return await this.db.collection("users").doc(this.auth.currentUser?.uid).set({
+            full_name: name,
+        }, {merge: true});
     }
 
     async getCurrentUserInfo(){
@@ -89,6 +99,9 @@ class Firebase {
     async changePassword(pass:string){
         return await this.auth.currentUser?.updatePassword(pass);
     }
+
+    //------------------------FiresStore Stuff---------------------------//
+
 }
 
 export default new Firebase()
