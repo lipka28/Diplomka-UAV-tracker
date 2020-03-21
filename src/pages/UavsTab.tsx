@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, 
-         IonToolbar, IonFabButton, IonFab, IonIcon } from '@ionic/react';
-import { addOutline } from 'ionicons/icons'
-import UavAddDialog from '../components/AddUAVWindow'
+         IonToolbar, IonFabButton, IonFab, IonIcon, IonList, IonItem } from '@ionic/react';
+import { addOutline } from 'ionicons/icons';
+import UavAddDialog from '../components/AddUAVWindow';
+import UavBadge from '../components/UavBadge';
+import Firebase from '../components/Firebase';
+import IUav from '../Interfaces/IUav';
 
 const UavsTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  var date = new Date();
+  const [data, setData] = useState<Array<IUav>>();
+
+  useEffect(() => {
+    setData(Firebase.getMyUAVs());
+  }, [showAddDialog])
 
   return (
     <IonPage>
@@ -22,7 +29,18 @@ const UavsTab: React.FC = () => {
             <IonTitle size="large">UAV List</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {date.getMilliseconds()}
+        <IonList>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+            <UavBadge/>
+        </IonList>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
             <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>
               <IonIcon icon={addOutline}></IonIcon>

@@ -2,6 +2,7 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import IUser from '../Interfaces/IUser'
+import IUav from '../Interfaces/IUav'
 
 const config = {
     apiKey: "AIzaSyDM4PKLJY3Ag09PcgTilm4fSFSsqz54zGY",
@@ -112,6 +113,24 @@ class Firebase {
             uav_code: uavCode,
             shared_with: [this.auth.currentUser?.uid]
         });
+    }
+
+    getMyUAVs(){
+        let uavs:any = []
+        this.db.collection("uavs").where("shared_with", "array-contains", this.auth.currentUser?.uid)
+        .get().then(querrySnapshot => {
+            querrySnapshot.forEach(doc => {
+                let data = doc.data();
+                let uav:IUav = {
+                    uavId : doc.id,
+                    ownerName : data.owner_name === this.auth.currentUser?.displayName ? "you" : data.owner_name,
+                    name : data.name,
+                    iconUrl : data.icon_url
+                };
+                uavs.push(uav)
+            });
+        });
+        return uavs;
     }
 }
 
