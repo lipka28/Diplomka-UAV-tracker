@@ -8,13 +8,13 @@ const PilotTab: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle class="ion-text-center">Pilot's Diarry</IonTitle>
+          <IonTitle class="ion-text-center">Pilot's Logs</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Pilot's Diarry</IonTitle>
+            <IonTitle size="large">Pilot's Logs</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
