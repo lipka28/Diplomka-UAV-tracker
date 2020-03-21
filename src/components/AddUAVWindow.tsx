@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { IonInput, IonButton, IonPopover, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { IonInput, IonButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading } from '@ionic/react';
 import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
 
 const UavAddDialog = (props:any) => {
   const [name, setName] = useState('');
-  const [opName, setOpName] = useState(Firebase.getCurrentUserInfo().name);
+  const [opName, setOpName] = useState('');
   const [ok, setOk] = useState('');
   const [bussy, setBussy] = useState(false);
 
@@ -33,6 +33,7 @@ const UavAddDialog = (props:any) => {
             isOpen={props.isOpen}
             onDidDismiss={props.onDidDismiss}
             cssClass="WideDialog">
+              <IonLoading message="Adding UAV" duration={0} isOpen={bussy}/>
             <IonGrid>
               <IonRow>
                 <IonCol class="ion-text-center">

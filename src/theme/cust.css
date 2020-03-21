@@ -11,3 +11,60 @@
     width: 90%;
     max-height: 80%;
 }
+
+.UAVBadge-base {
+    position: relative;
+    left: 5%;
+    width: 90%;
+    max-height: 65pt;
+    height: 65pt;
+    background-color: white;
+    border-radius: 35px;
+    box-shadow: 2px 2px 5px lightgray;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.UAVBadge-base .imbed-image {
+    position: relative;
+    float: left;
+    height: 100%;
+    width: 100px;
+    z-index: 2;
+    background-color: whitesmoke;
+}
+
+.UAVBadge-base .mid-section .cust-splitter-hor {
+    height: 1px;
+    width: 100%;
+    z-index: 2;
+    background-color: red;
+}
+
+.UAVBadge-base .mid-section {
+    height: 100%;
+    width: calc(80% - 65pt);
+    background-color: white;
+    z-index: 2;
+    float: left;
+}
+
+.UAVBadge-base .ham-menu {
+    height: 100%;
+    width: 15%;
+    float: right;
+    overflow: hidden;
+    background-color: whitesmoke;
+}
+
+.UAVBadge-base .ham-menu .btn-fill {
+    margin: 0px;
+    padding: 0px;
+    box-shadow: none;
+    border-color: none;
+    border-radius: 0px !important;
+    height: 100%;
+    width: 100%;
+    float: right;
+}
