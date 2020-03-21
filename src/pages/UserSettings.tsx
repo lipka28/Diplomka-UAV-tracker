@@ -84,7 +84,7 @@ const UserSettings: React.FC = () => {
     }
   }
 
-  Firebase.getCurrentUserInfo().then(user => {
+  var user = Firebase.getCurrentUserInfo()
     if(firstRun) {
       setFullname(user.name);
       setOldName(user.name);
@@ -92,7 +92,6 @@ const UserSettings: React.FC = () => {
       setOldEmail(user.email);
       setFirstRun(false);
     }
-  })  
 
   return (
     <IonPage>
