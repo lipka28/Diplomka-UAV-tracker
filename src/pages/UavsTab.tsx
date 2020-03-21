@@ -6,6 +6,7 @@ import UavAddDialog from '../components/AddUAVWindow'
 
 const UavsTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
+  var date = new Date();
 
   return (
     <IonPage>
@@ -21,6 +22,7 @@ const UavsTab: React.FC = () => {
             <IonTitle size="large">UAV List</IonTitle>
           </IonToolbar>
         </IonHeader>
+        {date.getMilliseconds()}
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
             <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>
               <IonIcon icon={addOutline}></IonIcon>
