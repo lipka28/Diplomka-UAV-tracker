@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, 
-         IonToolbar, IonFabButton, IonFab, IonIcon, IonList, IonItem } from '@ionic/react';
+         IonToolbar, IonFabButton, IonFab, IonIcon, IonList } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 import UavAddDialog from '../components/AddUAVWindow';
 import UavBadge from '../components/UavBadge';
 import Firebase from '../components/Firebase';
 import IUav from '../Interfaces/IUav';
-
 const UavsTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [first, setFirst] = useState(true);

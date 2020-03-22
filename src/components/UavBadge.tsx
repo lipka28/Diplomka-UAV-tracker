@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { IonButton, IonIcon, IonPopover } from '@ionic/react';
+import { IonButton, IonIcon, IonPopover, IonList, IonItem, IonLabel } from '@ionic/react';
 import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
-import { menuOutline, airplaneOutline } from 'ionicons/icons'
+import { menuOutline, airplaneOutline, closeOutline, documentTextOutline, alertCircleOutline } from 'ionicons/icons'
+import { Link } from 'react-router-dom';
 
 const UavAddDialog = (props:any) => {
     const [id, setId] = useState(props.uavID);
@@ -31,7 +32,22 @@ const UavAddDialog = (props:any) => {
                 <IonPopover
                 isOpen={showPopover}
                 onDidDismiss={e => setShowPopover(false)}>
-                    <p>{id}</p>
+                    <IonList>
+                        <IonItem><h2>{name}</h2></IonItem>
+                        <Link to="/userSettings"><IonItem>
+                            <IonIcon icon={alertCircleOutline} />
+                            <IonLabel>Details</IonLabel>
+                        </IonItem>
+                        </Link>
+                        <IonItem disabled={true}>
+                            <IonIcon icon={documentTextOutline} />
+                            <IonLabel>Logs</IonLabel>
+                        </IonItem>
+                        <IonItem onClick={e => (setShowPopover(false))}>
+                            <IonIcon icon={closeOutline} />
+                            <IonLabel>Close</IonLabel>
+                        </IonItem>
+                    </IonList>
                 </IonPopover>
                 <IonButton className="btn-fill" color="light" onClick={e => (setShowPopover(true))}>
                     <IonIcon style={{"fontSize": 200+"%"}} icon={menuOutline}/>
