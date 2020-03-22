@@ -9,11 +9,12 @@ import IUav from '../Interfaces/IUav';
 
 const UavsTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [first, setFirst] = useState(true);
   const [data, setData] = useState<Array<IUav>>();
 
   useEffect(() => {
-    setData(Firebase.getMyUAVs());
-  }, [showAddDialog])
+      Firebase.getMyUAVs().then( data => (setData(data)));
+  }, [, showAddDialog])
 
   return (
     <IonPage>
@@ -30,16 +31,8 @@ const UavsTab: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonList>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
-            <UavBadge/>
+          {data?.map((item, index) => (
+          <UavBadge key={index} uavID={item.uavId} img={item.iconUrl} uavName={item.name} ownerName={item.ownerName}/>))}
         </IonList>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
             <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>

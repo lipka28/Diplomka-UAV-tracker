@@ -115,9 +115,36 @@ class Firebase {
         });
     }
 
-    getMyUAVs(){
-        let uavs:any = []
-        this.db.collection("uavs").where("shared_with", "array-contains", this.auth.currentUser?.uid)
+    getMyUAVs():Promise<Array<IUav>>{
+        return new Promise((resolve:any, reject:any) => {
+            var uavs:Array<IUav> = [];
+            this.db.collection("uavs").where("shared_with", "array-contains", this.auth.currentUser?.uid)
+            .get().then(querrySnapshot => {
+            querrySnapshot.forEach(doc => {
+                let data = doc.data();
+                let uav:IUav = {
+                    uavId : doc.id,
+                    ownerName : data.owner_name === this.auth.currentUser?.displayName ? "you" : data.owner_name,
+                    name : data.name,
+                    iconUrl : data.icon_url
+                };
+                uavs.push(uav);
+            });
+        }).then(() => {
+            if(uavs){
+                resolve(uavs)
+            }
+            else {
+                resolve(null)
+            }
+        });
+
+        })
+        
+    }
+    
+    /*{
+        return await this.db.collection("uavs").where("shared_with", "array-contains", this.auth.currentUser?.uid)
         .get().then(querrySnapshot => {
             querrySnapshot.forEach(doc => {
                 let data = doc.data();
@@ -127,11 +154,9 @@ class Firebase {
                     name : data.name,
                     iconUrl : data.icon_url
                 };
-                uavs.push(uav)
             });
         });
-        return uavs;
-    }
+    }*/
 }
 
 export default new Firebase()
