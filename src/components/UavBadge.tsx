@@ -34,11 +34,10 @@ const UavAddDialog = (props:any) => {
                 onDidDismiss={e => setShowPopover(false)}>
                     <IonList>
                         <IonItem><h2>{name}</h2></IonItem>
-                        <Link to="/userSettings"><IonItem>
+                        <IonItem>
                             <IonIcon icon={alertCircleOutline} />
                             <IonLabel>Details</IonLabel>
                         </IonItem>
-                        </Link>
                         <IonItem disabled={true}>
                             <IonIcon icon={documentTextOutline} />
                             <IonLabel>Logs</IonLabel>

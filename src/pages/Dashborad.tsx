@@ -14,11 +14,6 @@ const Dashboard: React.FC = () => {
       window.location.reload();
   }
 
-  function toSettings()
-  {
-    window.location.href = '/userSettings';
-  }
-
   return (
     <IonPage>
       <IonContent>
@@ -46,7 +41,7 @@ const Dashboard: React.FC = () => {
               <IonIcon style={{"fontSize": 500+"%"}} icon={personCircleOutline}></IonIcon>
             </IonFabButton>
             <IonFabList>
-              <IonFabButton onClick={toSettings} color="light">
+              <IonFabButton routerLink="userSettings" color="light">
                 <IonIcon icon={settingsOutline}/>
               </IonFabButton>
               <IonFabButton onClick={logout} color="danger">
