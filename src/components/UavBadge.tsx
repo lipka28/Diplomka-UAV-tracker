@@ -3,18 +3,14 @@ import { IonButton, IonIcon, IonPopover, IonList, IonItem, IonLabel } from '@ion
 import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
-import { menuOutline, airplaneOutline, closeOutline, documentTextOutline, alertCircleOutline } from 'ionicons/icons'
-import { Link } from 'react-router-dom';
+import { menuOutline, airplaneOutline, closeOutline, documentTextOutline, createOutline } from 'ionicons/icons'
 
-const UavAddDialog = (props:any) => {
+const UAVBadge = (props:any) => {
     const [id, setId] = useState(props.uavID);
     const [img,setImg] = useState(props.img);
     const [name, setName] = useState(props.uavName);
     const [owner, setOwner] = useState(props.ownerName);
     const [showPopover, setShowPopover] = useState(false);
-
-    //console.log(props.uavID);
-
 
     return(
         <div className="UAVBadge-base">
@@ -34,9 +30,9 @@ const UavAddDialog = (props:any) => {
                 onDidDismiss={e => setShowPopover(false)}>
                     <IonList>
                         <IonItem><h2>{name}</h2></IonItem>
-                        <IonItem>
-                            <IonIcon icon={alertCircleOutline} />
-                            <IonLabel>Details</IonLabel>
+                        <IonItem disabled={owner !== "You" ? true : false}>
+                            <IonIcon icon={createOutline} />
+                            <IonLabel>Edit Details</IonLabel>
                         </IonItem>
                         <IonItem disabled={true}>
                             <IonIcon icon={documentTextOutline} />
@@ -56,4 +52,4 @@ const UavAddDialog = (props:any) => {
     );
 }
 
-export default UavAddDialog;
+export default UAVBadge;

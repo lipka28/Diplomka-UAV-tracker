@@ -1,5 +1,5 @@
 interface IPilot {
-    uavId:string;
+    logsFileId:string;
     name:string;
 }
 

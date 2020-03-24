@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import IUser from '../Interfaces/IUser'
 import IUav from '../Interfaces/IUav'
+import IPilot from '../Interfaces/IPilotLogs'
 
 const config = {
     apiKey: "AIzaSyDM4PKLJY3Ag09PcgTilm4fSFSsqz54zGY",
@@ -23,6 +24,7 @@ class Firebase {
         app.initializeApp(config);
         this.auth = app.auth();
         this.db = app.firestore();
+        this.db.enablePersistence()
     }
 
     //-------------------------------------------Firebase stuff-------------------------//
@@ -126,7 +128,7 @@ class Firebase {
                 let data = doc.data();
                 let uav:IUav = {
                     uavId : doc.id,
-                    ownerName : data.owner_name === this.auth.currentUser?.displayName ? "you" : data.owner_name,
+                    ownerName : data.owner_name === this.auth.currentUser?.displayName ? "You" : data.owner_name,
                     name : data.name,
                     iconUrl : data.icon_url
                 };
@@ -155,6 +157,42 @@ class Firebase {
             name: name
         });
     }
+
+    getPilots():Promise<Array<IPilot>>{
+        return new Promise((resolve:any, reject:any) => {
+            var logs:Array<IPilot> = [];
+            this.db.collection("users")
+            .doc(this.auth.currentUser?.uid)
+            .collection("pilotLogs")
+            .get().then(querrySnapshot => {
+            querrySnapshot.forEach(doc => {
+                let data = doc.data();
+                let log:IPilot = {
+                    logsFileId : doc.id,
+                    name : data.name,
+                };
+                logs.push(log);
+            });
+        }).then(() => {
+            if(logs){
+                resolve(logs)
+            }
+            else {
+                resolve(null)
+            }
+        });
+
+        }) 
+    }
+    async renamePilotLogs(newName:string, colId:string){
+        return await this.db.collection("users")
+                    .doc(this.auth.currentUser?.uid)
+                    .collection("pilotLogs")
+                    .doc(colId)
+                    .set({
+            name: newName
+        }, {merge: true});
+    }    
 }
 
 export default new Firebase()
