@@ -8,7 +8,6 @@ import Firebase from '../components/Firebase';
 import IUav from '../Interfaces/IUav';
 const UavsTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [first, setFirst] = useState(true);
   const [data, setData] = useState<Array<IUav>>();
 
   useEffect(() => {

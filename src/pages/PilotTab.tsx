@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, 
          IonToolbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
+import LogsAddDialog from '../components/AddLogsWindow';
 
 const PilotTab: React.FC = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+
   return (
     <IonPage>
+      <LogsAddDialog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} />
       <IonHeader>
         <IonToolbar>
           <IonTitle class="ion-text-center">Pilot's Logs</IonTitle>
@@ -18,7 +22,7 @@ const PilotTab: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
-            <IonFabButton color="primary">
+            <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>
               <IonIcon icon={addOutline}></IonIcon>
             </IonFabButton>
         </IonFab>

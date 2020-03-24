@@ -142,21 +142,6 @@ class Firebase {
         })
         
     }
-    
-    /*{
-        return await this.db.collection("uavs").where("shared_with", "array-contains", this.auth.currentUser?.uid)
-        .get().then(querrySnapshot => {
-            querrySnapshot.forEach(doc => {
-                let data = doc.data();
-                let uav:IUav = {
-                    uavId : doc.id,
-                    ownerName : data.owner_name === this.auth.currentUser?.displayName ? "you" : data.owner_name,
-                    name : data.name,
-                    iconUrl : data.icon_url
-                };
-            });
-        });
-    }*/
 }
 
 export default new Firebase()
