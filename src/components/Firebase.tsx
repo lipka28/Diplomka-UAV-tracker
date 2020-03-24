@@ -103,6 +103,8 @@ class Firebase {
 
     //------------------------FiresStore Stuff---------------------------//
 
+    //-------------------------------UAVs---------------------------------//
+
     async addUAV(name:string, operatorName:string, uavCode:string){
         return await this.db.collection("uavs").add({
             owner_id: this.auth.currentUser?.uid,
@@ -141,6 +143,17 @@ class Firebase {
 
         })
         
+    }
+
+    //----------------------------------Pilots---------------------------//
+
+    async addPilotLogs(name:string){
+        return await this.db.collection("users")
+                    .doc(this.auth.currentUser?.uid)
+                    .collection("pilotLogs")
+                    .add({
+            name: name
+        });
     }
 }
 

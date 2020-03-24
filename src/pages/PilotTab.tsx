@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle,
          IonToolbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 import LogsAddDialog from '../components/AddLogsWindow';
+import IPilot from '../Interfaces/IPilotLogs';
 
 const PilotTab: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);

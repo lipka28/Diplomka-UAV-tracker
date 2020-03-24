@@ -14,13 +14,13 @@ const LogsAddDialog = (props:any) => {
           presentToast("All fields are mandatory!!");
           setBussy(false);
         } else {
-          /*await Firebase.addUAV(name, opName, ok).then(() => {
+          await Firebase.addPilotLogs(name).then(() => {
             props.onDidDismiss();
             setBussy(false);
           }).catch((reason) => {
-            presentToast(reason)*/
+            presentToast(reason)
             setBussy(false);
-          //})
+          })
         }    
   }
 
