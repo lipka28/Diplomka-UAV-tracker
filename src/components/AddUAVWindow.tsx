@@ -25,6 +25,10 @@ const UavAddDialog = (props:any) => {
             presentToast(reason)
             setBussy(false);
           })
+
+          setName('');
+          setOpName('');
+          setOk('');
         }    
   }
 

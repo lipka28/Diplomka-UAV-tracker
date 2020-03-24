@@ -21,6 +21,9 @@ const LogsAddDialog = (props:any) => {
             presentToast(reason)
             setBussy(false);
           })
+
+          setName('');
+          
         }    
   }
 
