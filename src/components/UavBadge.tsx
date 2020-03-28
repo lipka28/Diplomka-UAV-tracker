@@ -30,7 +30,8 @@ const UAVBadge = (props:any) => {
                 onDidDismiss={e => setShowPopover(false)}>
                     <IonList>
                         <IonItem><h2>{name}</h2></IonItem>
-                        <IonItem disabled={owner !== "You" ? true : false}>
+                        <IonItem disabled={owner !== "You" ? true : false}
+                                 onClick={() => {window.history.replaceState([id, name], '', '/uavSettings'); window.location.reload();}}>
                             <IonIcon icon={createOutline} />
                             <IonLabel>Edit Details</IonLabel>
                         </IonItem>

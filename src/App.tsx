@@ -27,6 +27,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import UserSettings from './pages/UserSettings';
+import UavSettings from './pages/UavSettings';
 
 const RoutingSystem: React.FC = () => {
 
@@ -38,6 +39,7 @@ const RoutingSystem: React.FC = () => {
               <Route path="/login" component={Login} exact={true} />
               <Route path="/register" component={Register} exact={true} />
               <Route path="/userSettings" component={UserSettings} exact={true} />
+              <Route path="/uavSettings" component={UavSettings} exact={true} />
               <Route path="/dashboard" component={Dashboard} exact={true} />
               <Route path="/Loading" component={CustomLoading} exact={true} />
               <Route exact path="/" render={() => <Redirect to="/dashboard" />} />

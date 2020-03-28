@@ -1,4 +1,4 @@
-import app from 'firebase/app'
+import app, { analytics } from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import IUser from '../Interfaces/IUser'
@@ -130,6 +130,9 @@ class Firebase {
                     uavId : doc.id,
                     ownerName : data.owner_name === this.auth.currentUser?.displayName ? "You" : data.owner_name,
                     name : data.name,
+                    operatorName: data.operator_name,
+                    uavCode: data.uav_code,
+                    sharedWith: data.shared_with,
                     iconUrl : data.icon_url
                 };
                 uavs.push(uav);
@@ -145,6 +148,29 @@ class Firebase {
 
         })
         
+    }
+
+    getUAVbyId(id:string):Promise<IUav>{
+        return new Promise((resolve:any, reject:any) => {
+            this.db.collection("uavs").doc(id).get().then(dbUav => {
+                let data = dbUav.data();
+                let uav:IUav = {
+                    uavId: id,
+                    ownerName: data?.owner_name === this.auth.currentUser?.displayName ? "You" : data?.owner_name,
+                    name: data?.name,
+                    operatorName: data?.operator_name,
+                    uavCode: data?.uav_code,
+                    sharedWith: data?.shared_with,
+                    iconUrl: data?.icon_url
+                }
+                
+                if(uav){
+                    resolve(uav)
+                } else {
+                    resolve(null)
+                }
+            }).catch(() => resolve(null))
+        })
     }
 
     //----------------------------------Pilots---------------------------//
