@@ -241,14 +241,6 @@ class Firebase {
         let ts = new Date();
         let logName = ts.toISOString();
         let singleName = [logName];
-        console.log(logName)
-        console.log("chosen UAV:"+tarUav.name)
-        console.log("Logger ID:"+loggerId)
-        console.log("Date from input:"+date)
-        console.log("GPS location:"+gps)
-        console.log("druation:"+duration)
-        console.log("ftype:"+fType)
-        console.log("special events:"+sEvents)
 
         let pilotLogsUpRef = this.db.collection("users")
                                     .doc(this.auth.currentUser?.uid)
