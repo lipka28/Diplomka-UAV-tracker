@@ -54,9 +54,9 @@ const AddLog = (props:any) => {
     setBussy(true);
     if(uav && gps.includes(",") && gps.length >= 6 && ftype !== ''){
       await Firebase.newLog(uav!, pilotLogId, date, gps, duration, ftype, sEvents)
-      .then(() => {})
-      .catch(() => {
-        presentToast("Failed to log your flight, please try again later.")
+      .then(() => {console.log("succes")})
+      .catch(err => {
+        console.log(err)
       });
     } else {
       if(!uav){

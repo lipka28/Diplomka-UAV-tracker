@@ -238,9 +238,9 @@ class Firebase {
     //----------------------------------Logs------------------------------//
     async newLog(tarUav:IUav, loggerId:string, date:string,
                  gps:string, duration:string, fType:string, sEvents:string){
-        
         let ts = new Date();
         let logName = ts.toISOString();
+        let singleName = [logName];
         console.log(logName)
         console.log("chosen UAV:"+tarUav.name)
         console.log("Logger ID:"+loggerId)
@@ -254,46 +254,65 @@ class Firebase {
                                     .doc(this.auth.currentUser?.uid)
                                     .collection("pilotLogs")
                                     .doc(loggerId);
-        let pilotLogRef:any;
-        this.db.collection("users")
-               .doc(this.auth.currentUser?.uid)
-               .collection("pilotLogs")
-               .doc(loggerId)
-               .collection("pilotLog")
-               .where("count", "<", 1000)
-               .get().then(querrySnapshot => {
-                   querrySnapshot.forEach(doc => (pilotLogRef = doc))
-               });
 
-        let uavLogRef:any; 
-        this.db.collection("uavs")
-               .doc(tarUav.uavId)
-               .collection("uavLog")
-               .where("count", "<", 1000)
-               .get().then(querrySnapshot => {
-                   querrySnapshot.forEach(doc => (uavLogRef = doc))
-               });
+        let uavLogsUpRef = this.db.collection("uavs")
+                                  .doc(tarUav.uavId);
 
-        return await this.db.runTransaction(async tran => {
-            await tran.get(pilotLogRef).then(doc => {
-                if (!doc.exists){
-                    tran.get(pilotLogsUpRef).then(doc => {
+        await this.db.runTransaction(async tran => {
+            await tran.get(pilotLogsUpRef).then(doc => {
+                let subDoc:app.firestore.DocumentSnapshot<app.firestore.DocumentData>;
+                doc.ref.collection("pilotLog")
+                       .where("count", "<", 1000)
+                       .get().then(querrySnapshot => {
+                        querrySnapshot.forEach(document => (subDoc = document))
+                }).then(() => {
+                    if (!subDoc){
                         doc.ref.collection("pilotLog")
                         .add({
-                            count: 1
-
+                            count: 1,
+                            logs: singleName,
+                            [logName]: {
+                                date: date,
+                                pilot_name: this.auth.currentUser?.displayName,
+                                uav_code: tarUav.uavCode,
+                                gps: gps,
+                                flight_dur: duration,
+                                flight_type: fType,
+                                spec_events: sEvents
+                            }
                         })
-                    })
-                } else {
-
-                }
+                    } else {
+                        throw ("Already added one, cnat get more...for now");
+                    }
+                })
+                
             });
-            return await tran.get(pilotLogRef).then(doc => {
-                if (!doc.exists){
-
-                } else {
-
-                }
+            return await tran.get(uavLogsUpRef).then(doc => {
+                let subDoc:app.firestore.DocumentSnapshot<app.firestore.DocumentData>;
+                doc.ref.collection("uavLog")
+                       .where("count", "<", 1000)
+                       .get().then(querrySnapshot => {
+                        querrySnapshot.forEach(document => (subDoc = document))
+                }).then(() => {
+                    if (!subDoc){
+                        doc.ref.collection("uavLog")
+                        .add({
+                            count: 1,
+                            logs: singleName,
+                            [logName]: {
+                                date: date,
+                                pilot_name: this.auth.currentUser?.displayName,
+                                uav_code: tarUav.uavCode,
+                                gps: gps,
+                                flight_dur: duration,
+                                flight_type: fType,
+                                spec_events: sEvents
+                            }
+                        })
+                    } else {
+                        throw ("Already added one, cnat get more...for now");
+                    }
+                })
             })
         })
     }
