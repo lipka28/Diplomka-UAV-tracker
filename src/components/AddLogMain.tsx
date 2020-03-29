@@ -13,7 +13,6 @@ const AddLog = (props:any) => {
   const [pilotLogId, setPilotLogId] = useState(props.pilotID);
 
   const [date, setDate] = useState('');
-  const [name, setName] = useState('');
   const [uavId, setUavId] = useState('');
   const [gps, setGps] = useState('');
   const [duration, setDuration] = useState('01:00');
@@ -24,8 +23,6 @@ const AddLog = (props:any) => {
   const [mess, setMess] = useState('');
 
   useEffect(() => {
-    let user = Firebase.getCurrentUserInfo();
-    setName(user.name)
     Firebase.getMyUAVs().then(data => 
       setTempUavs(data));
 
@@ -55,7 +52,7 @@ const AddLog = (props:any) => {
   async function addLog(){
     setMess("Adding log");
     setBussy(true);
-    
+
     setBussy(false); 
   }
 
@@ -79,16 +76,6 @@ const AddLog = (props:any) => {
                    value={date}
                    onIonChange={(e: any) => setDate(e.target.value)}/>
                    </IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol>
-                   <strong>Pilot name:</strong>
-                   <IonInput 
-                   type="text" 
-                   placeholder="Pilot name"
-                   value={name}
-                   onIonChange={(e: any) => setName(e.target.value)}/>
-                </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
