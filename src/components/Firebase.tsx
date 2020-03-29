@@ -235,7 +235,8 @@ class Firebase {
         }, {merge: true});
     }  
     
-    //----------------------------------Logs------------------------------//
+//---------------------------------------------Logs-------------------------------------------//
+
     async newLog(tarUav:IUav, loggerId:string, date:string,
                  gps:string, duration:string, fType:string, sEvents:string){
         let ts = new Date();
