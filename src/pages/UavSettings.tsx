@@ -15,12 +15,15 @@ const UavSettings: React.FC = () => {
     const [message, setMessage] = useState('');
     const [bussy, setBussy] = useState(false);
     const [firstRun, setFirstRun] = useState(true);
+    const [showPopover, setShowPopover] = useState(false);
 
   async function saveChanges(){
     setMessage("Saving changes...");
     setBussy(true);
-    if(/*check*/false){
-      // firebase function
+    if(privileged){
+      await Firebase.changeUav(uavName, operatorName, uavId)
+      .then(() => window.location.href = "/Dashboard")
+      .catch(e => (presentToast("Failed to save changes, please try later.")))
     } else {
       window.location.href = "/Dashboard";
     }
@@ -29,8 +32,10 @@ const UavSettings: React.FC = () => {
   async function deleteUAV(){
     setMessage("Deleting...");
     setBussy(true);
-    if(/*check*/false){
-      // firebase function
+    if(privileged){
+      await Firebase.deleteUav(uavId)
+      .then(() => window.location.href = "/Dashboard")
+      .catch(e => (presentToast("Failed to delete UAV please try again later.")))
     } else {
       window.location.href = "/Dashboard";
     }
@@ -50,6 +55,22 @@ const UavSettings: React.FC = () => {
 
   return (
     <IonPage>
+      <IonPopover
+        isOpen={showPopover}
+        onDidDismiss={e => setShowPopover(false)}>
+        <IonGrid>
+          <IonRow>
+            <IonCol class="ion-text-center">
+              Are you shure you wnat to delete UAV with name: <strong>{uavName} </strong>
+              and code <strong>{uavCode}</strong> 
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol class="ion-text-right"><IonButton color="danger" onClick={deleteUAV}>Delete</IonButton></IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonPopover>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -62,31 +83,33 @@ const UavSettings: React.FC = () => {
         <IonLoading message={message} duration={0} isOpen={bussy}/>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">User settings</IonTitle>
+            <IonTitle size="large">{uavName} details</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonList>
           <IonItem>
-            <IonLabel>Real Name:</IonLabel>
+            <IonLabel>Display name:</IonLabel>
+            <IonInput disabled={!privileged} value={uavName}
+            onIonChange={(e: any) => setUavName(e.target.value)}/>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Registered operator:</IonLabel>
+            <IonInput disabled={!privileged} value={operatorName} 
+            onIonChange={(e: any) => setOperatorName(e.target.value)}/>
+          </IonItem>
+          <IonItem>
+            <IonLabel>UAV Code:</IonLabel>
             <IonInput 
-            value={uavId}
-            placeholder="Full name"
-            /*onIonChange={(e: any) => setFullname(e.target.value)}*//>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Email:</IonLabel>
-            <IonInput disabled={true} value={uavId}/>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Password:</IonLabel>
-            <IonInput disabled={true} value={uavId} />
+            value={uavCode}
+            disabled={true}
+            placeholder="OK-XXXXXX"/>
           </IonItem>
         </IonList>
         <IonFab horizontal="end" vertical="bottom" slot="fixed">
-          <IonButton color="primary" onClick={saveChanges}>Save changes</IonButton>
+          <IonButton color="primary" disabled={!privileged} onClick={saveChanges}>Save changes</IonButton>
           </IonFab>
         <IonFab horizontal="start" vertical="bottom" slot="fixed">
-          <IonButton color="Danger" onClick={saveChanges}>Delete UAV</IonButton>
+          <IonButton color="danger" disabled={!privileged} onClick={() => setShowPopover(true)}>Delete UAV</IonButton>
           </IonFab>
       </IonContent>
     </IonPage>

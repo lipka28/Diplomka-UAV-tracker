@@ -173,6 +173,19 @@ class Firebase {
         })
     }
 
+    async changeUav(newName:string, newOpName:string, uavId:string){
+        return await this.db.collection("uavs")
+                    .doc(uavId)
+                    .set({
+            name: newName,
+            operator_name: newOpName
+        }, {merge: true});
+    }
+
+    async deleteUav(uavId:string){
+        return await this.db.collection("uavs").doc(uavId).delete()
+    }
+
     //----------------------------------Pilots---------------------------//
 
     async addPilotLogs(name:string){
