@@ -13,7 +13,7 @@ const AddLog = (props:any) => {
   const [pilotLogId, setPilotLogId] = useState(props.pilotID);
 
   const [date, setDate] = useState('');
-  const [uavId, setUavId] = useState('');
+  const [uav, setUav] = useState<IUav>();
   const [gps, setGps] = useState('');
   const [duration, setDuration] = useState('01:00');
   const [ftype, setFtype] = useState('');
@@ -52,6 +52,21 @@ const AddLog = (props:any) => {
   async function addLog(){
     setMess("Adding log");
     setBussy(true);
+    if(uav && gps.includes(",") && gps.length >= 6 && ftype !== ''){
+      await Firebase.newLog(uav!, pilotLogId, date, gps, duration, ftype, sEvents)
+      .then(() => {})
+      .catch(() => {
+        presentToast("Failed to log your flight, please try again later.")
+      });
+    } else {
+      if(!uav){
+        presentToast("You didn't select UAV for your flight");
+      } else if (ftype === '') {
+        presentToast("You must specify flight type");
+      } else {
+        presentToast("Your GPS format is not valid");
+      }
+    }
 
     setBussy(false); 
   }
@@ -80,9 +95,9 @@ const AddLog = (props:any) => {
               <IonRow>
                 <IonCol>
                    <strong>UAV:</strong>
-                   <IonSelect value={uavId} okText="Okay" cancelText="Dismiss" onIonChange={e => setUavId(e.detail.value)}>
+                   <IonSelect value={uav} okText="Okay" cancelText="Dismiss" onIonChange={e => setUav(e.detail.value)}>
                    {tempUavs?.map((item:IUav, index:number) => (
-                     <IonSelectOption key={index} value={item.uavId}>{item.name}</IonSelectOption>))}
+                     <IonSelectOption key={index} value={item}>{item.name}</IonSelectOption>))}
                    </IonSelect>
                 </IonCol>
               </IonRow>
