@@ -15,8 +15,6 @@ const PilotBadge = (props:any) => {
     const [showPopRename, setShowPopRename] = useState(false);
     const [showAddDialog, setShowAddDialog] = useState(false);
 
-    console.log(props.uavID);
-
     function rename(){
         Firebase.renamePilotLogs(newName, id)
         .then(() => {

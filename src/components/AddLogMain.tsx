@@ -1,18 +1,62 @@
-import React, { useState } from 'react';
-import { IonInput, IonButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading, IonLabel, IonIcon } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
+import { IonInput, IonButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading, 
+         IonLabel, IonIcon, IonSelect, IonSelectOption, IonTextarea } from '@ionic/react';
 import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
 import { locateOutline } from 'ionicons/icons';
+import Geo from '../components/Geo';
+import IUav from '../Interfaces/IUav';
 
 const AddLog = (props:any) => {
-  const [name, setName] = useState('');
+  const [tempUavs, setTempUavs] = useState<Array<IUav>>();
   const [pilotLogId, setPilotLogId] = useState(props.pilotID);
-  const [bussy, setBussy] = useState(false);
 
-  async function addLogsFile(){
-    setBussy(true)
-    setBussy(false) 
+  const [date, setDate] = useState('');
+  const [name, setName] = useState('');
+  const [uavId, setUavId] = useState('');
+  const [gps, setGps] = useState('');
+  const [duration, setDuration] = useState('01:00');
+  const [ftype, setFtype] = useState('');
+  const [sEvents, setSEvents] = useState('');
+
+  const [bussy, setBussy] = useState(false);
+  const [mess, setMess] = useState('');
+
+  useEffect(() => {
+    let user = Firebase.getCurrentUserInfo();
+    setName(user.name)
+    Firebase.getMyUAVs().then(data => 
+      setTempUavs(data));
+
+      let today = new Date();
+      let dd = String(today.getDate()).padStart(2, '0');
+      let mm = String(today.getMonth() + 1).padStart(2, '0');
+      let yyyy = today.getFullYear();
+      setDate(yyyy+"-"+mm+"-"+dd);
+    
+  }, [props.isOpen])
+
+  async function getLocation(){
+    setMess("Trying to get location...");
+    setBussy(true);
+    await Geo.getPosition()
+    .then(res => {
+      let coor:string = res.coords.latitude + ", " + res.coords.longitude;
+      setGps(coor)
+      setBussy(false);
+    })
+    .catch(() => {
+      setBussy(false);
+      presentToast("Failed to get your position");
+    })
+  }
+
+  async function addLog(){
+    setMess("Adding log");
+    setBussy(true);
+    
+    setBussy(false); 
   }
 
     return(
@@ -20,7 +64,7 @@ const AddLog = (props:any) => {
             isOpen={props.isOpen}
             onDidDismiss={props.onDidDismiss}
             cssClass="WideDialog">
-              <IonLoading message="Adding Log" duration={0} isOpen={bussy}/>
+              <IonLoading message={mess} duration={0} isOpen={bussy}/>
             <IonGrid>
               <IonRow>
                 <IonCol class="ion-text-center">
@@ -29,72 +73,75 @@ const AddLog = (props:any) => {
               </IonRow>
               <IonRow>
                   <IonCol>
-                   Date:
+                   <strong>Date:</strong>
                    <IonInput 
                    type="date" 
-                   placeholder="Name of file"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   value={date}
+                   onIonChange={(e: any) => setDate(e.target.value)}/>
                    </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>Pilot name:</IonLabel>
+                   <strong>Pilot name:</strong>
                    <IonInput 
                    type="text" 
                    placeholder="Pilot name"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   value={name}
+                   onIonChange={(e: any) => setName(e.target.value)}/>
                 </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>UAV:</IonLabel>
-                   <IonInput 
-                   type="text" 
-                   placeholder="Uav Selector here"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   <strong>UAV:</strong>
+                   <IonSelect value={uavId} okText="Okay" cancelText="Dismiss" onIonChange={e => setUavId(e.detail.value)}>
+                   {tempUavs?.map((item:IUav, index:number) => (
+                     <IonSelectOption key={index} value={item.uavId}>{item.name}</IonSelectOption>))}
+                   </IonSelect>
                 </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>GPS:</IonLabel>
+                   <strong>GPS:</strong>
                    <IonInput 
+                   value={gps}
                    type="text" 
                    placeholder="Latitude, Longitude"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   onIonChange={(e: any) => setGps(e.target.value)}/>
                 </IonCol>
-                <IonButton color="light"><IonIcon icon={locateOutline} /></IonButton>
+                <IonButton color="light" onClick={getLocation}><IonIcon icon={locateOutline} /></IonButton>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>Flight duration</IonLabel>
+                   <strong>Flight duration</strong>
                    <IonInput 
                    type="time" 
-                   value="00:00"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   value={duration}
+                   onIonChange={(e: any) => setDuration(e.target.value)}/>
                 </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>Flight type</IonLabel>
+                   <strong>Flight type</strong>
                    <IonInput 
                    type="text" 
                    placeholder="Type of flight"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   value={ftype}
+                   onIonChange={(e: any) => setFtype(e.target.value)}/>
                 </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol>
-                   <IonLabel>Special events</IonLabel>
-                   <IonInput 
-                   type="text" 
-                   placeholder="Events"
-                   /*onIonChange={(e: any) => setName(e.target.value)}*//>
+                   <strong>Special events</strong>
+                   <IonTextarea placeholder="Events"
+                   value={sEvents}
+                   onIonChange={(e: any) => setSEvents(e.target.value)}>
+                   </IonTextarea>
                 </IonCol>
               </IonRow>
               <IonRow>
                 <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancle</IonButton></IonCol>
                 <IonCol class="ion-text-right"><IonButton color="success"
-                onClick={addLogsFile}>Add</IonButton></IonCol>
+                onClick={addLog}>Add</IonButton></IonCol>
               </IonRow>
             </IonGrid>
         </IonPopover>
