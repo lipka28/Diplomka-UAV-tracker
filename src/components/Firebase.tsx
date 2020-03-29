@@ -1,4 +1,4 @@
-import app, { analytics } from 'firebase/app'
+import app, { analytics, firestore } from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import IUser from '../Interfaces/IUser'
@@ -282,7 +282,20 @@ class Firebase {
                             }
                         })
                     } else {
-                        throw ("Already added one, cnat get more...for now");
+                        let newCount = subDoc.data()!.count + 1;
+                        subDoc.ref.set({
+                            count: newCount,
+                            logs: firestore.FieldValue.arrayUnion(logName),
+                            [logName]: {
+                                date: date,
+                                pilot_name: this.auth.currentUser?.displayName,
+                                uav_code: tarUav.uavCode,
+                                gps: gps,
+                                flight_dur: duration,
+                                flight_type: fType,
+                                spec_events: sEvents
+                            }
+                        }, {merge: true})
                     }
                 })
                 
@@ -310,7 +323,20 @@ class Firebase {
                             }
                         })
                     } else {
-                        throw ("Already added one, cnat get more...for now");
+                        let newCount = subDoc.data()!.count + 1;
+                        subDoc.ref.set({
+                            count: newCount,
+                            logs: firestore.FieldValue.arrayUnion(logName),
+                            [logName]: {
+                                date: date,
+                                pilot_name: this.auth.currentUser?.displayName,
+                                uav_code: tarUav.uavCode,
+                                gps: gps,
+                                flight_dur: duration,
+                                flight_type: fType,
+                                spec_events: sEvents
+                            }
+                        }, {merge: true})
                     }
                 })
             })
