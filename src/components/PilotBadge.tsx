@@ -5,6 +5,7 @@ import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
 import { menuOutline, closeOutline, documentTextOutline, addOutline, createOutline } from 'ionicons/icons'
+import AddLog from './AddLogMain';
 
 const PilotBadge = (props:any) => {
     const [id, setId] = useState(props.pilotID);
@@ -12,6 +13,7 @@ const PilotBadge = (props:any) => {
     const [newName, setNewName] = useState(props.pilotName)
     const [showPopover, setShowPopover] = useState(false);
     const [showPopRename, setShowPopRename] = useState(false);
+    const [showAddDialog, setShowAddDialog] = useState(false);
 
     console.log(props.uavID);
 
@@ -28,6 +30,7 @@ const PilotBadge = (props:any) => {
 
     return(
         <div className="UAVBadge-base">
+            <AddLog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} pilotID={id}/>
             <IonPopover
                 isOpen={showPopRename}
                 onDidDismiss={e => setShowPopRename(false)}
@@ -50,7 +53,7 @@ const PilotBadge = (props:any) => {
                     </IonList>
                 </IonPopover>
             <div className="imbed-image">
-                <IonButton className="btn-fill" color="success">
+                <IonButton className="btn-fill" color="success" onClick={() => setShowAddDialog(true)}>
                     <IonIcon style={{"fontSize": 200+"%"}} icon={addOutline}/>
                 </IonButton>
             </div>
