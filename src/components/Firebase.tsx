@@ -1,6 +1,7 @@
-import app, { analytics, firestore } from 'firebase/app'
+import app, { analytics, firestore, functions } from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
+import 'firebase/firebase-functions';
 import IUser from '../Interfaces/IUser'
 import IUav from '../Interfaces/IUav'
 import IPilot from '../Interfaces/IPilotLogs'
@@ -407,6 +408,22 @@ class Firebase {
         });
 
         }) 
+    }
+
+//-----------------------------------Custom cloud functions---------------------------//
+    getCsv(type:string, id:string):Promise<any>{
+        const userId = (type === 'pilot' ? this.auth.currentUser?.uid : '');
+        return new Promise((resolve:any, reject:any) => {
+            let toCSV = functions().httpsCallable('generateCSV');
+            toCSV({type: type, id: id, userId: userId}).then(result => {
+                console.log(result);
+                if (result){
+                    resolve(result);
+                } else {
+                    resolve(null);
+                }
+            }).catch(err => console.log(err));
+        })
     }
 }
 

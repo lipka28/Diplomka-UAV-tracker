@@ -26,12 +26,35 @@ const LogTable: React.FC = () => {
     } else {
       Firebase.getLogsForUAV(id)
       .then(data => {
-        console.log(data);
         setLogs(data);
       })
       .catch(() => presentToast("Can't get data from database. Please try again later."))
     }
   }, [])
+
+  function getCsv(){
+    setMessage("Downloading file...");
+    setBussy(true);
+    let type = window.history.state[0];
+    let id = window.history.state[1];
+    if(type === 'pilot'){
+      Firebase.getCsv('pilot', id)
+      .then( file => {
+        console.log(file);
+        setBussy(false);
+      })
+      .catch(err => {console.log(err);
+        setBussy(false);})
+    } else {
+      Firebase.getCsv('uav', id)
+      .then( file => {
+        console.log(file);
+        setBussy(false);
+      })
+      .catch(err => {console.log(err);
+        setBussy(false);})
+    }
+  }
 
   return (
     <IonPage>
@@ -41,7 +64,7 @@ const LogTable: React.FC = () => {
             <IonBackButton defaultHref="/Dashboard"/>
           </IonButtons>
           <IonButtons slot="primary">
-            <IonButton>
+            <IonButton onClick={getCsv}>
                 <IonIcon icon={downloadOutline}/>
             </IonButton>
           </IonButtons>
