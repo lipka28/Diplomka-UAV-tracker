@@ -27,7 +27,7 @@ const PilotBadge = (props:any) => {
     }
 
     function goToLog(){
-        window.history.pushState([], '','/logTable');
+        window.history.pushState(['pilot', id, name], '','/logTable');
         window.location.reload();
     }
 

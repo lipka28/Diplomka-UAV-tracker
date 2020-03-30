@@ -6,6 +6,7 @@ import IUav from '../Interfaces/IUav'
 import IPilot from '../Interfaces/IPilotLogs'
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import { trailSignSharp } from 'ionicons/icons'
+import ILog from '../Interfaces/ILog'
 
 const config = {
     apiKey: "AIzaSyDM4PKLJY3Ag09PcgTilm4fSFSsqz54zGY",
@@ -334,6 +335,78 @@ class Firebase {
                 })
             })
         })
+    }
+
+    getLogsForPilot(pilotId:string):Promise<Array<ILog>>{
+        return new Promise((resolve:any, reject:any) => {
+            var logs:Array<ILog> = [];
+            this.db.collection("users")
+            .doc(this.auth.currentUser?.uid)
+            .collection("pilotLogs")
+            .doc(pilotId)
+            .collection("pilotLog")
+            .get().then(querrySnapshot => {
+            querrySnapshot.forEach(doc => {
+                let data = doc.data();
+                let logFileds:Array<string> = data.logs;
+                logFileds.forEach(item => {
+                    let log:ILog = {
+                        date: data[item].date,
+                        pilotName: data[item].pilot_name,
+                        uavCode: data[item].uav_code,
+                        gps: data[item].gps,
+                        flightDur: data[item].flight_dur,
+                        flightType: data[item].flight_type,
+                        specEvents: data[item].spec_events
+                    };
+                    logs.push(log);
+                })
+            });
+        }).then(() => {
+            if(logs){
+                resolve(logs)
+            }
+            else {
+                resolve(null)
+            }
+        });
+
+        }) 
+    }
+
+    getLogsForUAV(uavId:string):Promise<Array<ILog>>{
+        return new Promise((resolve:any, reject:any) => {
+            var logs:Array<ILog> = [];
+            this.db.collection("uavs")
+            .doc(uavId)
+            .collection("uavLog")
+            .get().then(querrySnapshot => {
+            querrySnapshot.forEach(doc => {
+                let data = doc.data();
+                let logFileds:Array<string> = data.logs;
+                logFileds.forEach(item => {
+                    let log:ILog = {
+                        date: data[item].date,
+                        pilotName: data[item].pilot_name,
+                        uavCode: data[item].uav_code,
+                        gps: data[item].gps,
+                        flightDur: data[item].flight_dur,
+                        flightType: data[item].flight_type,
+                        specEvents: data[item].spec_events
+                    };
+                    logs.push(log);
+                })
+            });
+        }).then(() => {
+            if(logs){
+                resolve(logs)
+            }
+            else {
+                resolve(null)
+            }
+        });
+
+        }) 
     }
 }
 

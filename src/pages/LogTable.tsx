@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, 
-         IonBackButton, IonLoading, IonMenuButton, IonButton, IonIcon, IonItem, IonCol, IonCard, IonLabel, IonCardContent, IonGrid, IonRow } from '@ionic/react';
+         IonBackButton, IonLoading, IonButton, IonIcon } from '@ionic/react';
 import Firebase from '../components/Firebase';
 import { presentToast } from '../components/Toast'
-import { menuOutline, removeOutline, removeCircleOutline, downloadOutline } from 'ionicons/icons';
+import { downloadOutline } from 'ionicons/icons';
+import LogPanel from '../components/LogPanel';
+import ILog from '../Interfaces/ILog';
 
 const LogTable: React.FC = () => {
+  const [logs, setLogs] = useState<Array<ILog>>();
   const [bussy, setBussy] = useState(false);
   const [message, setMessage] = useState('');
+  const [pageName, setPageName] = useState(window.history.state[2])
+
+  useEffect(() => {
+    let type = window.history.state[0];
+    let id = window.history.state[1];
+
+    if(type === 'pilot'){
+      Firebase.getLogsForPilot(id)
+      .then(data => {
+        setLogs(data);
+      })
+      .catch(() => presentToast("Can't get data from database. Please try again later."))
+    } else {
+      Firebase.getLogsForUAV(id)
+      .then(data => {
+        console.log(data);
+        setLogs(data);
+      })
+      .catch(() => presentToast("Can't get data from database. Please try again later."))
+    }
+  }, [])
 
   return (
     <IonPage>
@@ -21,54 +45,20 @@ const LogTable: React.FC = () => {
                 <IonIcon icon={downloadOutline}/>
             </IonButton>
           </IonButtons>
-          <IonTitle>User settings</IonTitle>
+          <IonTitle>{pageName}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonLoading message={message} duration={0} isOpen={bussy}/>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">User settings</IonTitle>
+            <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonCard>
-          <IonItem>
-            <IonLabel>Log id: y56csd6wc54yxd6g4yd6g</IonLabel>
-            <IonIcon color="danger" icon={removeCircleOutline} slot="end" />
-          </IonItem>
-          <IonCardContent>
-            <IonGrid>
-              <IonRow>
-                <IonCol><strong>Date:</strong></IonCol>
-                <IonCol>10.10.1010</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>Pilot name:</strong></IonCol>
-                <IonCol>Tester Test</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>UAV:</strong></IonCol>
-                <IonCol>OK-XXXXXX</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>GPS:</strong></IonCol>
-                <IonCol>40.23251, 19.56423</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>Flight duration:</strong></IonCol>
-                <IonCol>01:30</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>Flight type:</strong></IonCol>
-                <IonCol>Test flight</IonCol>
-              </IonRow>
-              <IonRow>
-                <IonCol><strong>Special events:</strong></IonCol>
-                <IonCol></IonCol>
-              </IonRow>
-            </IonGrid>
-          </IonCardContent>
-        </IonCard>
+        {logs?.map((item, index) => (
+          <LogPanel key={index} date={item.date} pilotName={item.pilotName} uavId={item.uavCode}
+                    gps={item.gps} fdur={item.flightDur} ftype={item.flightType} sevents={item.specEvents}/>
+        ))}
       </IonContent>
     </IonPage>
   );

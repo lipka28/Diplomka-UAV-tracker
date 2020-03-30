@@ -13,7 +13,7 @@ const UAVBadge = (props:any) => {
     const [showPopover, setShowPopover] = useState(false);
 
     function goToLog(){
-        window.history.pushState([], '','/logTable');
+        window.history.pushState(['uav', id, name], '','/logTable');
         window.location.reload();
     }
 
