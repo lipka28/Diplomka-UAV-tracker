@@ -26,6 +26,11 @@ const PilotBadge = (props:any) => {
         })
     }
 
+    function goToLog(){
+        window.history.pushState([], '','/logTable');
+        window.location.reload();
+    }
+
     return(
         <div className="UAVBadge-base">
             <AddLog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} pilotID={id}/>
@@ -74,7 +79,7 @@ const PilotBadge = (props:any) => {
                             <IonIcon icon={createOutline} />
                             <IonLabel>Rename</IonLabel>
                         </IonItem>
-                        <IonItem disabled={true}>
+                        <IonItem onClick={goToLog}>
                             <IonIcon icon={documentTextOutline} />
                             <IonLabel>Logs</IonLabel>
                         </IonItem>

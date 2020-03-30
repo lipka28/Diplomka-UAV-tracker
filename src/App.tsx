@@ -28,6 +28,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import UserSettings from './pages/UserSettings';
 import UavSettings from './pages/UavSettings';
+import LogTable from './pages/LogTable';
 
 const RoutingSystem: React.FC = () => {
 
@@ -41,6 +42,7 @@ const RoutingSystem: React.FC = () => {
               <Route path="/userSettings" component={UserSettings} exact={true} />
               <Route path="/uavSettings" component={UavSettings} exact={true} />
               <Route path="/dashboard" component={Dashboard} exact={true} />
+              <Route path="/logTable" component={LogTable} exact={true} />
               <Route path="/Loading" component={CustomLoading} exact={true} />
               <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             </IonRouterOutlet>

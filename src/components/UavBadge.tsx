@@ -12,6 +12,11 @@ const UAVBadge = (props:any) => {
     const [owner, setOwner] = useState(props.ownerName);
     const [showPopover, setShowPopover] = useState(false);
 
+    function goToLog(){
+        window.history.pushState([], '','/logTable');
+        window.location.reload();
+    }
+
     return(
         <div className="UAVBadge-base">
             <div className="imbed-image">
@@ -35,7 +40,7 @@ const UAVBadge = (props:any) => {
                             <IonIcon icon={createOutline} />
                             <IonLabel>Edit Details</IonLabel>
                         </IonItem>
-                        <IonItem disabled={true}>
+                        <IonItem onClick={goToLog}>
                             <IonIcon icon={documentTextOutline} />
                             <IonLabel>Logs</IonLabel>
                         </IonItem>
