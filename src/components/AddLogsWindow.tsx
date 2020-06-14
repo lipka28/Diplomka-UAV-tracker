@@ -26,7 +26,6 @@ const LogsAddDialog = (props:any) => {
           
         }    
   }
-
     return(
         <IonPopover
             isOpen={props.isOpen}

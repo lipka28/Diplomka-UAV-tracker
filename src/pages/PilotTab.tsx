@@ -12,8 +12,8 @@ const PilotTab: React.FC = () => {
   const [data, setData] = useState<Array<IPilot>>();
 
   useEffect(() => {
-      Firebase.getPilots().then( data => (setData(data)));
-  }, [, showAddDialog])
+      Firebase.getPilots().then( data => (setData(data))).then(() => console.log(data));
+  }, [])
 
   return (
     <IonPage>
