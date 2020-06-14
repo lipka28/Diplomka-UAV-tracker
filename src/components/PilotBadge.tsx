@@ -37,7 +37,7 @@ const PilotBadge = (props:any) => {
         .then(() => {
             setShowPopDelete(false);
             setId(null);
-            // TODO: Pravděpodbně ještě refresh ..a processing spinner.
+            // TODO: processing spinner.
         })
         .catch(err => {
             presentToast(err);

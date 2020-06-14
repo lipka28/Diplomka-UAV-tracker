@@ -30,7 +30,7 @@ const UavsTab: React.FC = () => {
         </IonHeader>
         <IonList>
           {data?.map((item, index) => (
-          <UavBadge key={index} uavID={item.uavId} img={item.iconUrl} uavName={item.name} ownerName={item.ownerName}/>))}
+          <UavBadge key={Math.random()*5000} uavID={item.uavId} img={item.iconUrl} uavName={item.name} ownerName={item.ownerName}/>))}
         </IonList>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
             <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>

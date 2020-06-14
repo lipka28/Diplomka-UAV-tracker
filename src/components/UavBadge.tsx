@@ -11,6 +11,7 @@ const UAVBadge = (props:any) => {
     const [name, setName] = useState(props.uavName);
     const [owner, setOwner] = useState(props.ownerName);
     const [showPopover, setShowPopover] = useState(false);
+    const [showPopDelete, setShowPopDelete] = useState(false);
 
     function goToLog(){
         window.history.pushState(['uav', id, name], '','/logTable');

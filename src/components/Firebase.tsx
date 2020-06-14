@@ -187,6 +187,7 @@ class Firebase {
     }
 
     async deleteUav(uavId:string){
+        // TODO: Rework for multiuser
         return await this.db.collection("uavs").doc(uavId).delete()
     }
 
