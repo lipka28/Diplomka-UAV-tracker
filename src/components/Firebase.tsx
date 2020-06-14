@@ -143,7 +143,7 @@ class Firebase {
             });
         }).then(() => {
             if(uavs){
-                resolve(uavs)
+                resolve(uavs.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)))
             }
             else {
                 resolve(null)
@@ -218,7 +218,7 @@ class Firebase {
             });
         }).then(() => {
             if(logs){
-                resolve(logs)
+                resolve(logs.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)))
             }
             else {
                 resolve(null)
