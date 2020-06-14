@@ -1,17 +1,16 @@
 Co je potřeba dodělat:
-Mazání Uav, s tím, že se vlastnění přesune na dalšího sdíleného v řadě, pokud existuje.
-Mazání pilotních deníků.
-Spinnery, když fetchuju Pilotní deníky a UAV při načítání.
-Přidávání speciálních událostí..a vymyslet interakci při sdílení.
 Opravit stahování CSV Tak aby se koverze vytvářela lokálně.
+Přidávání speciálních událostí..a vymyslet interakci při sdílení.
 Mazání jednotlivých logů v seznamech...s možností vypropagovat do sdílencýh seznamů (Dronů)
+Mazání Uav, s tím, že se vlastnění přesune na dalšího sdíleného v řadě, pokud existuje. -> Částečně
 
 Sdílení UAV pomocí QR Kódu:
 - stránka na generování
 - stránka pro scanování
 - firebase request pro úpravu
 
+Co by bylo Fajn ještě udělt:
 Upravit Login/ Register Design
 Pořešit ikonky a deseign.
-
+Spinnery, když fetchuju Pilotní deníky a UAV při načítání.
 Drag down to update (na všech relevantních částech) -> Jen když zbude čas.
