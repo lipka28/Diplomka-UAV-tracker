@@ -4,7 +4,7 @@ import { IonButton, IonIcon, IonPopover, IonList, IonItem, IonLabel, IonInput,
 import '../theme/cust.css';
 import { presentToast } from '../components/Toast'
 import Firebase from '../components/Firebase';
-import { menuOutline, closeOutline, documentTextOutline, addOutline, createOutline } from 'ionicons/icons'
+import { menuOutline, closeOutline, documentTextOutline, addOutline, createOutline, removeOutline, trashOutline } from 'ionicons/icons'
 import AddLog from './AddLogMain';
 
 const PilotBadge = (props:any) => {
@@ -14,6 +14,7 @@ const PilotBadge = (props:any) => {
     const [showPopover, setShowPopover] = useState(false);
     const [showPopRename, setShowPopRename] = useState(false);
     const [showAddDialog, setShowAddDialog] = useState(false);
+    const [showPopDelete, setShowPopDelete] = useState(false);
 
     function rename(){
         Firebase.renamePilotLogs(newName, id)
@@ -31,6 +32,16 @@ const PilotBadge = (props:any) => {
         window.location.reload();
     }
 
+    function delPilotLogs(){
+        Firebase.deletePilotLogs(id)
+        .then(() => {
+            setShowPopDelete(false);
+        })
+        .catch(err => {
+            presentToast(err);
+        })
+    }
+
     return(
         <div className="UAVBadge-base">
             <AddLog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} pilotID={id}/>
@@ -39,10 +50,10 @@ const PilotBadge = (props:any) => {
                 onDidDismiss={e => setShowPopRename(false)}
                 cssClass="WideDialog">
                     <IonList>
-                        <IonItem><h2>Rename</h2></IonItem>
-                        <IonItem>
-                            <IonInput value={newName} onIonChange={(e: any) => setNewName(e.target.value)}/>
-                        </IonItem>
+                        <IonItem><h2>Delete</h2></IonItem>
+                            <IonItem>
+                                <IonInput value={newName} onIonChange={(e: any) => setNewName(e.target.value)}/>
+                            </IonItem>
                         <IonGrid>
                             <IonRow>
                                 <IonCol>
@@ -54,6 +65,22 @@ const PilotBadge = (props:any) => {
                             </IonRow>
                         </IonGrid>
                     </IonList>
+                </IonPopover>
+                <IonPopover
+                isOpen={showPopDelete}
+                onDidDismiss={e => setShowPopDelete(false)}
+                cssClass="WideDialog">
+                    <IonGrid>
+                        <IonRow>
+                          <IonCol class="ion-text-center">
+                            Are you shure you wnat to delete <strong>{name} </strong>?
+                          </IonCol>
+                        </IonRow>
+                        <IonRow>
+                          <IonCol><IonButton color="light" onClick={() => setShowPopDelete(false)}>Cancle</IonButton></IonCol>
+                          <IonCol class="ion-text-right"><IonButton color="danger" onClick={delPilotLogs}>Delete</IonButton></IonCol>
+                        </IonRow>
+                    </IonGrid>
                 </IonPopover>
             <div className="imbed-image">
                 <IonButton className="btn-fill" color="success" onClick={() => setShowAddDialog(true)}>
@@ -82,6 +109,13 @@ const PilotBadge = (props:any) => {
                         <IonItem onClick={goToLog}>
                             <IonIcon icon={documentTextOutline} />
                             <IonLabel>Logs</IonLabel>
+                        </IonItem>
+                        <IonItem onClick={e => {
+                            setShowPopover(false);
+                            setShowPopDelete(true);
+                            }}>
+                            <IonIcon icon={trashOutline} color="danger"/>
+                            <IonLabel color="danger">Delete</IonLabel>
                         </IonItem>
                         <IonItem onClick={e => (setShowPopover(false))}>
                             <IonIcon icon={closeOutline} />

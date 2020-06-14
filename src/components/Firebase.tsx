@@ -236,6 +236,13 @@ class Firebase {
             name: newName
         }, {merge: true});
     }  
+
+    async deletePilotLogs(colId:string){
+        return await this.db.collection("users")
+                    .doc(this.auth.currentUser?.uid)
+                    .collection("pilotLogs")
+                    .doc(colId).delete();
+    }
     
 //---------------------------------------------Logs-------------------------------------------//
 
