@@ -13,8 +13,7 @@ const PilotTab: React.FC = () => {
 
   useEffect(() => {
       Firebase.getPilots().then( data => (setData(data))).then(() => console.log(data));
-  }, [])
-
+  }, [,showAddDialog])
   return (
     <IonPage>
       <LogsAddDialog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} />
@@ -31,7 +30,7 @@ const PilotTab: React.FC = () => {
         </IonHeader>
         <IonList>
         {data?.map((item, index) => (
-          <PilotBadge key={index} pilotID={item.logsFileId} pilotName={item.name}/>))}
+          <PilotBadge key={Math.random()*5000} pilotID={item.logsFileId} pilotName={item.name}/>))}
         </IonList>
         <IonFab horizontal="center" vertical="bottom" slot="fixed">
             <IonFabButton color="primary" onClick={() => {setShowAddDialog(true)}}>
