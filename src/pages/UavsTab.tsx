@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, 
-         IonToolbar, IonFabButton, IonFab, IonIcon, IonList } from '@ionic/react';
-import { addOutline } from 'ionicons/icons';
+         IonToolbar, IonFabButton, IonFab, IonIcon, IonList, IonPopover, IonGrid, IonRow, IonCol, IonInput, IonButton } from '@ionic/react';
+import { addOutline, qrCodeOutline } from 'ionicons/icons';
 import UavAddDialog from '../components/AddUAVWindow';
 import UavBadge from '../components/UavBadge';
 import Firebase from '../components/Firebase';
 import IUav from '../Interfaces/IUav';
+import { ok } from 'assert';
 const UavsTab: React.FC = () => {
-  const [showAddDialog, setShowAddDialog] = useState(false);
   const [data, setData] = useState<Array<IUav>>();
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showAddNewDialog, setShowAddNewDialog] = useState(false);
+  const [showAddSharedDialog, setShowAddSharedDialog] = useState(false);
 
   useEffect(() => {
       Firebase.getMyUAVs().then( data => (setData(data)));
-  }, [, showAddDialog])
+  }, [, showAddNewDialog])
 
   return (
     <IonPage>
-      <UavAddDialog isOpen={showAddDialog} onDidDismiss={() => setShowAddDialog(false)} />
+      <IonPopover
+            isOpen={showAddDialog}
+            onDidDismiss={() => setShowAddDialog(false)}
+            cssClass="WideDialog">
+            <IonGrid>
+              <IonRow>
+                  <IonButton color="primary" onClick={() => {setShowAddDialog(false); setShowAddNewDialog(true)}}>Add New UAV</IonButton>
+                </IonRow>
+                <IonRow>
+                  <IonButton color="light"
+                onClick={() => setShowAddDialog(false)}><IonIcon icon={qrCodeOutline} /> Add Shared UAV</IonButton>
+              </IonRow>
+            </IonGrid>
+        </IonPopover>
+      <UavAddDialog isOpen={showAddNewDialog} onDidDismiss={() => setShowAddNewDialog(false)} />
       <IonHeader>
         <IonToolbar>
           <IonTitle class="ion-text-center">UAVs</IonTitle>
