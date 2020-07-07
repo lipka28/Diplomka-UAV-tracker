@@ -4,7 +4,8 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList,
          IonBackButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle } from '@ionic/react';
 import Firebase from '../components/Firebase';
 import { presentToast } from '../components/Toast'
-import { qrCodeOutline } from 'ionicons/icons';
+import { qrCodeOutline, qrCode } from 'ionicons/icons';
+import QRCode from 'qrcode.react';
 
 const UavSettings: React.FC = () => {
     const [uavId, setUavId] = useState(window.history.state[0]);
@@ -43,6 +44,66 @@ const UavSettings: React.FC = () => {
     }
   }
 
+  function merge(unixEpochStr: string, salt: string){
+    let pt1 = unixEpochStr.split("");
+    let pt2 = salt.split("");
+    let res: string[] = [];
+    
+    for(let i = 0; i < unixEpochStr.length; i++){
+      res.push(pt1[i]);
+      res.push(pt2[i]);
+    }
+    return res.join("")
+  }
+
+  function makeid(length: number) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
+ function encode(idString:string, saltTs:string) {
+    let chars = idString.split("");
+    let result = "";
+    let salting = "";
+    while(chars.length >= salting.length) {
+      salting += saltTs;
+    }
+    let key = salting.split("")
+    for (let i = 0; i < chars.length; i++) {
+      let charcode = (chars[i].charCodeAt(0)) + parseInt(key[i]);
+      result += String.fromCharCode(charcode);
+    }
+
+    return merge(saltTs.split("").reverse().join(""), makeid(saltTs.length))+")"+result;
+ }
+
+ function decode(unknownString:string) {
+    let chars = unknownString.split("");
+    let key = "";
+    let source = "";
+ }
+  // jen test pro zaobfuskovani predavanych dat 8275114951
+  function test(){
+    let idToProcess = uavId;
+    let ts = Math.round((new Date()).getTime() / 1000).toString();
+    let tsRev = ts.split("").reverse().join("");
+    let letters = makeid(ts.length);
+    let passedValue = idToProcess;
+    let newPassedValue = encode(passedValue, ts.toString());
+    let test = encode("xxxxxxxxxx","999999999");
+    console.log(passedValue);
+    console.log(newPassedValue);
+    //console.log(test);
+    //console.log(ts);
+    //console.log(letters);
+    //console.log(merge(ts, letters));
+  }
+
   useEffect(() => {
     Firebase.getUAVbyId(uavId).then( data => {
         if(data){
@@ -61,7 +122,7 @@ const UavSettings: React.FC = () => {
             isOpen={showQrDialog}
             onDidDismiss={() => setShowQrDialog(false)}>
         <IonCard>
-              image placeohlder
+              <QRCode size={230} value="5sad6f1sd56f1sd65f1sd654g56fsd4gh56fds1g56dsfh4g56fg165sf1gh65sf1h65f" />
               <IonCardHeader  class="ion-text-center">
                   <IonCardTitle>QR-Sahre</IonCardTitle>
               </IonCardHeader>
@@ -71,6 +132,8 @@ const UavSettings: React.FC = () => {
                         QR Code Expires in: 123
                       </p>
                   </IonItem>
+                  <IonButton color="primary" expand="block" onClick={() => test()}>Test</IonButton>
+                  <IonButton color="danger" expand="block">Cancel</IonButton>
               </IonCardContent>
           </IonCard>
       </IonPopover>
@@ -85,7 +148,7 @@ const UavSettings: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancel</IonButton></IonCol>
             <IonCol class="ion-text-right"><IonButton color="danger" onClick={deleteUAV}>Delete</IonButton></IonCol>
           </IonRow>
         </IonGrid>
