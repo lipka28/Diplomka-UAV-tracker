@@ -115,7 +115,7 @@ const UserSettings: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol><IonButton color="light" onClick={() => setShowPopover(false)}>Cancel</IonButton></IonCol>
             <IonCol class="ion-text-right"><IonButton color="danger" onClick={deleteUser}>Delete</IonButton></IonCol>
           </IonRow>
         </IonGrid>
@@ -147,7 +147,7 @@ const UserSettings: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton color="light" onClick={() => setShowEmailPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol><IonButton color="light" onClick={() => setShowEmailPopover(false)}>Cancel</IonButton></IonCol>
             <IonCol class="ion-text-right"><IonButton color="primary" onClick={changeEmail}>Save</IonButton></IonCol>
           </IonRow>
         </IonGrid>
@@ -186,7 +186,7 @@ const UserSettings: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton color="light" onClick={() => setShowPassPopover(false)}>Cancle</IonButton></IonCol>
+            <IonCol><IonButton color="light" onClick={() => setShowPassPopover(false)}>Cancel</IonButton></IonCol>
             <IonCol class="ion-text-right"><IonButton color="primary" onClick={changePassword}>Save</IonButton></IonCol>
           </IonRow>
         </IonGrid>

@@ -144,7 +144,7 @@ const AddLog = (props:any) => {
                 </IonCol>
               </IonRow>
               <IonRow>
-                <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancle</IonButton></IonCol>
+                <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancel</IonButton></IonCol>
                 <IonCol class="ion-text-right"><IonButton color="success"
                 onClick={addLog}>Add</IonButton></IonCol>
               </IonRow>

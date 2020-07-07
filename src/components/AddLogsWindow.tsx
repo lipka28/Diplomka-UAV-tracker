@@ -48,7 +48,7 @@ const LogsAddDialog = (props:any) => {
                 </IonCol>
               </IonRow>
               <IonRow>
-                <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancle</IonButton></IonCol>
+                <IonCol><IonButton color="light" onClick={props.onDidDismiss}>Cancel</IonButton></IonCol>
                 <IonCol class="ion-text-right"><IonButton color="primary"
                 onClick={addLogsFile}>Add</IonButton></IonCol>
               </IonRow>

@@ -61,7 +61,7 @@ const PilotBadge = (props:any) => {
                             <IonGrid>
                                 <IonRow>
                                     <IonCol>
-                                        <IonButton color="light" onClick={e => setShowPopRename(false)}>Cancle</IonButton>
+                                        <IonButton color="light" onClick={e => setShowPopRename(false)}>Cancel</IonButton>
                                     </IonCol>
                                     <IonCol class="ion-text-right">
                                         <IonButton color="primary" onClick={rename}>Save</IonButton>
@@ -81,7 +81,7 @@ const PilotBadge = (props:any) => {
                               </IonCol>
                             </IonRow>
                             <IonRow>
-                              <IonCol><IonButton color="light" onClick={() => setShowPopDelete(false)}>Cancle</IonButton></IonCol>
+                              <IonCol><IonButton color="light" onClick={() => setShowPopDelete(false)}>Cancel</IonButton></IonCol>
                               <IonCol class="ion-text-right"><IonButton color="danger" onClick={delPilotLogs}>Delete</IonButton></IonCol>
                             </IonRow>
                         </IonGrid>
