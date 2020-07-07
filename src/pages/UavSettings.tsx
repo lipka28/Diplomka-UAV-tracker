@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList,
          IonLabel, IonInput, IonItem, IonButton, IonFab, IonButtons, 
-         IonBackButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading } from '@ionic/react';
+         IonBackButton, IonPopover, IonGrid, IonRow, IonCol, IonLoading, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle } from '@ionic/react';
 import Firebase from '../components/Firebase';
 import { presentToast } from '../components/Toast'
+import { qrCodeOutline } from 'ionicons/icons';
 
 const UavSettings: React.FC = () => {
     const [uavId, setUavId] = useState(window.history.state[0]);
@@ -16,6 +17,7 @@ const UavSettings: React.FC = () => {
     const [bussy, setBussy] = useState(false);
     const [firstRun, setFirstRun] = useState(true);
     const [showPopover, setShowPopover] = useState(false);
+    const [showQrDialog, setShowQrDialog] = useState(false);
 
   async function saveChanges(){
     setMessage("Saving changes...");
@@ -56,6 +58,23 @@ const UavSettings: React.FC = () => {
   return (
     <IonPage>
       <IonPopover
+            isOpen={showQrDialog}
+            onDidDismiss={() => setShowQrDialog(false)}>
+        <IonCard>
+              image placeohlder
+              <IonCardHeader  class="ion-text-center">
+                  <IonCardTitle>QR-Sahre</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                  <IonItem lines="none">
+                      <p>
+                        QR Code Expires in: 123
+                      </p>
+                  </IonItem>
+              </IonCardContent>
+          </IonCard>
+      </IonPopover>
+      <IonPopover
         isOpen={showPopover}
         onDidDismiss={e => setShowPopover(false)}>
         <IonGrid>
@@ -75,6 +94,12 @@ const UavSettings: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/Dashboard"/>
+          </IonButtons>
+          <IonButtons slot="primary">
+            <IonButton color="primary" onClick={() => setShowQrDialog(true)}>
+                Share this UAV
+              <IonIcon icon={qrCodeOutline}/>
+            </IonButton>
           </IonButtons>
           <IonTitle>{uavName} details</IonTitle>
         </IonToolbar>

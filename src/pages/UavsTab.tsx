@@ -25,11 +25,12 @@ const UavsTab: React.FC = () => {
             cssClass="WideDialog">
             <IonGrid>
               <IonRow>
-                  <IonButton color="primary" onClick={() => {setShowAddDialog(false); setShowAddNewDialog(true)}}>Add New UAV</IonButton>
+                  <IonButton style={{"width": 100+"%", "height": 10+"vh"}} color="primary" expand="block"
+                    onClick={() => {setShowAddDialog(false); setShowAddNewDialog(true)}}>Add New UAV</IonButton>
                 </IonRow>
                 <IonRow>
-                  <IonButton color="light"
-                onClick={() => setShowAddDialog(false)}><IonIcon icon={qrCodeOutline} /> Add Shared UAV</IonButton>
+                  <IonButton style={{"width": 100+"%"}} color="light" expand="block"
+                    onClick={() => setShowAddDialog(false)}><IonIcon icon={qrCodeOutline} /> Add Shared UAV</IonButton>
               </IonRow>
             </IonGrid>
         </IonPopover>

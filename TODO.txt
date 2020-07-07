@@ -14,3 +14,7 @@ Upravit Login/ Register Design
 Pořešit ikonky a deseign.
 Spinnery, když fetchuju Pilotní deníky a UAV při načítání.
 Drag down to update (na všech relevantních částech) -> Jen když zbude čas.
+
+Způsob párování UAV z novým uživatelem.
+Krok 1:
+- Uživatel 1 vygeneruje QR kód obsahující ..bla bla
