@@ -6,6 +6,7 @@ import Firebase from '../components/Firebase';
 import { presentToast } from '../components/Toast'
 import { qrCodeOutline, qrCode } from 'ionicons/icons';
 import QRCode from 'qrcode.react';
+import Scrambler from '../components/Scrambler';
 
 const UavSettings: React.FC = () => {
     const [uavId, setUavId] = useState(window.history.state[0]);
@@ -44,59 +45,16 @@ const UavSettings: React.FC = () => {
     }
   }
 
-  function merge(unixEpochStr: string, salt: string){
-    let pt1 = unixEpochStr.split("");
-    let pt2 = salt.split("");
-    let res: string[] = [];
-    
-    for(let i = 0; i < unixEpochStr.length; i++){
-      res.push(pt1[i]);
-      res.push(pt2[i]);
-    }
-    return res.join("")
-  }
-
-  function makeid(length: number) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
- }
-
- function encode(idString:string, saltTs:string) {
-    let chars = idString.split("");
-    let result = "";
-    let salting = "";
-    while(chars.length >= salting.length) {
-      salting += saltTs;
-    }
-    let key = salting.split("")
-    for (let i = 0; i < chars.length; i++) {
-      let charcode = (chars[i].charCodeAt(0)) + parseInt(key[i]);
-      result += String.fromCharCode(charcode);
-    }
-
-    return merge(saltTs.split("").reverse().join(""), makeid(saltTs.length))+")"+result;
- }
-
- function decode(unknownString:string) {
-    let chars = unknownString.split("");
-    let key = "";
-    let source = "";
- }
   // jen test pro zaobfuskovani predavanych dat 8275114951
   function test(){
     let idToProcess = uavId;
-    let ts = Math.round((new Date()).getTime() / 1000).toString();
-    let tsRev = ts.split("").reverse().join("");
-    let letters = makeid(ts.length);
-    let passedValue = idToProcess;
-    let newPassedValue = encode(passedValue, ts.toString());
-    let test = encode("xxxxxxxxxx","999999999");
-    console.log(passedValue);
+    //let ts = Math.round((new Date()).getTime() / 1000).toString();
+    //let tsRev = ts.split("").reverse().join("");
+    //let letters = makeid(ts.length);
+    //let passedValue = idToProcess;
+    let newPassedValue = Scrambler.encode(uavId);
+    //let test = encode("xxxxxxxxxx","999999999");
+    console.log(uavId);
     console.log(newPassedValue);
     //console.log(test);
     //console.log(ts);
