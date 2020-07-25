@@ -7,6 +7,7 @@ import { presentToast } from '../components/Toast'
 import { qrCodeOutline, qrCode } from 'ionicons/icons';
 import QRCode from 'qrcode.react';
 import Scrambler from '../components/Scrambler';
+import CountDown from '../components/CountDown'
 
 const UavSettings: React.FC = () => {
     const [uavId, setUavId] = useState(window.history.state[0]);
@@ -20,6 +21,7 @@ const UavSettings: React.FC = () => {
     const [firstRun, setFirstRun] = useState(true);
     const [showPopover, setShowPopover] = useState(false);
     const [showQrDialog, setShowQrDialog] = useState(false);
+    const [tick, setTick] = useState(120);
 
   async function saveChanges(){
     setMessage("Saving changes...");
@@ -45,26 +47,6 @@ const UavSettings: React.FC = () => {
     }
   }
 
-  // jen test pro zaobfuskovani predavanych dat 8275114951
-  function test(){
-    let idToProcess = uavId;
-    //let ts = Math.round((new Date()).getTime() / 1000).toString();
-    //let tsRev = ts.split("").reverse().join("");
-    //let letters = makeid(ts.length);
-    //let passedValue = idToProcess;
-    let newPassedValue = Scrambler.encode(uavId);
-    //let test = encode("xxxxxxxxxx","999999999");
-    //console.log(uavId);
-    console.log(newPassedValue);
-    let back = Scrambler.decode(newPassedValue);
-    console.log(uavId);
-    console.log(back);
-    //console.log(test);
-    //console.log(ts);
-    //console.log(letters);
-    //console.log(merge(ts, letters));
-  }
-
   useEffect(() => {
     Firebase.getUAVbyId(uavId).then( data => {
         if(data){
@@ -83,18 +65,12 @@ const UavSettings: React.FC = () => {
             isOpen={showQrDialog}
             onDidDismiss={() => setShowQrDialog(false)}>
         <IonCard>
-              <QRCode size={230} value="5sad6f1sd56f1sd65f1sd654g56fsd4gh56fds1g56dsfh4g56fg165sf1gh65sf1h65f" />
+              <QRCode size={230} value={Scrambler.encode(uavId)} />
               <IonCardHeader  class="ion-text-center">
-                  <IonCardTitle>QR-Sahre</IonCardTitle>
+                <IonCardTitle color="danger"><CountDown /></IonCardTitle>
               </IonCardHeader>
               <IonCardContent>
-                  <IonItem lines="none">
-                      <p>
-                        QR Code Expires in: 123
-                      </p>
-                  </IonItem>
-                  <IonButton color="primary" expand="block" onClick={() => test()}>Test</IonButton>
-                  <IonButton color="danger" expand="block">Cancel</IonButton>
+                  <IonButton color="danger" expand="block" onClick={() => setShowQrDialog(false)}>Cancel</IonButton>
               </IonCardContent>
           </IonCard>
       </IonPopover>
