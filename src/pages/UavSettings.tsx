@@ -54,8 +54,11 @@ const UavSettings: React.FC = () => {
     //let passedValue = idToProcess;
     let newPassedValue = Scrambler.encode(uavId);
     //let test = encode("xxxxxxxxxx","999999999");
-    console.log(uavId);
+    //console.log(uavId);
     console.log(newPassedValue);
+    let back = Scrambler.decode(newPassedValue);
+    console.log(uavId);
+    console.log(back);
     //console.log(test);
     //console.log(ts);
     //console.log(letters);

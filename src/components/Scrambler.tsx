@@ -19,10 +19,14 @@ class Scrambler {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-    }
+  }
+
+  private getRoundedTime() {
+    return Math.round((new Date()).getTime() / 1000).toString();
+  }
 
  public encode(idString:string) {
-    let saltTs = Math.round((new Date()).getTime() / 1000).toString();
+    let saltTs = this.getRoundedTime();
     let chars = idString.split("");
     let result = "";
     let salting = "";
@@ -38,11 +42,25 @@ class Scrambler {
     return this.merge(saltTs.split("").reverse().join(""), this.makeid(saltTs.length))+")"+result;
     }
 
- private decode(unknownString:string) {
-    let chars = unknownString.split("");
-    let key = "";
-    let source = "";
+ public decode(unknownString:string) {
+    let key = unknownString.split(")")[0].replace(/[A-Za-z\s]/g, '');
+    let source = unknownString.split(")")[1].split("");
+
+    while(source.length >= key.length) {
+      key += key;
     }
+
+    let salting = key.split("").reverse();
+    let result = "";
+
+    for (let i = 0; i < source.length; i++) {
+      let charcode = (source[i].charCodeAt(0)) - parseInt(salting[i]);
+      result += String.fromCharCode(charcode);
+    }
+
+    return result;
+
+  }
 }
 
 export default new Scrambler()
