@@ -10,14 +10,14 @@ import { trailSignSharp } from 'ionicons/icons'
 import ILog from '../Interfaces/ILog'
 
 const config = {
-    apiKey: "AIzaSyDM4PKLJY3Ag09PcgTilm4fSFSsqz54zGY",
-    authDomain: "uav-tracker.firebaseapp.com",
-    databaseURL: "https://uav-tracker.firebaseio.com",
-    projectId: "uav-tracker",
-    storageBucket: "uav-tracker.appspot.com",
-    messagingSenderId: "550282888545",
-    appId: "1:550282888545:web:1951d20f245bd7b9bdb120",
-    measurementId: "G-KTVVM40M2Z"
+    apiKey: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    authDomain: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    databaseURL: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    projectId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    storageBucket: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    messagingSenderId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    appId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    measurementId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 };
 
 class Firebase {
